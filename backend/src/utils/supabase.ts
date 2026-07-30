@@ -1,10 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
 
-function getEnv(key: string): string {
-  return process.env[key] || process.env[`VITE_${key}`] || '';
+const supabaseUrl = process.env.SUPABASE_URL || '';
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || '';
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('[SUPABASE] Missing credentials', {
+    url: !!supabaseUrl,
+    key: !!supabaseKey,
+    keys: Object.keys(process.env).filter(k => k.includes('SUPABASE') || k.includes('DATABASE')),
+  });
 }
 
-const supabaseUrl = getEnv('SUPABASE_URL');
-const supabaseKey = getEnv('SUPABASE_SERVICE_ROLE_KEY') || getEnv('SUPABASE_ANON_KEY');
-
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = supabaseUrl && supabaseKey
+  ? createClient(supabaseUrl, supabaseKey)
+  : (null as any);
