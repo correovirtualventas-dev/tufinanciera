@@ -12,13 +12,13 @@ export const authService = {
       where: { email: nameOrEmail },
     });
     if (!user) throw new Error('Credenciales inválidas');
-    const valid = await bcrypt.compare(password, user.password);
+    const valid = await bcrypt.compare(password, user.password as string);
     if (!valid) throw new Error('Credenciales inválidas');
     if (!user.active) throw new Error('Usuario desactivado');
     const token = jwt.sign(
       { userId: user.id, role: user.role },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN }
+      { expiresIn: env.JWT_EXPIRES_IN as string | number }
     );
     return { token, user: { id: user.id, name: user.name, email: user.email, role: user.role } };
   },
@@ -37,13 +37,13 @@ export const authService = {
     if (!investors || investors.length === 0) throw new Error('No hay inversores para este cliente');
     const investor = investors.find((i: any) => i.password);
     if (!investor) throw new Error('Credenciales inválidas');
-    const valid = await bcrypt.compare(password, investor.password);
+    const valid = await bcrypt.compare(password, investor.password as string);
     if (!valid) throw new Error('Credenciales inválidas');
     if (!investor.active) throw new Error('Inversor desactivado');
     const token = jwt.sign(
       { userId: investor.id, role: 'INVESTOR' },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN }
+      { expiresIn: env.JWT_EXPIRES_IN as string | number }
     );
     return { token, investor: { id: investor.id, name: investor.name, currency: investor.currency } };
   },
@@ -52,7 +52,7 @@ export const authService = {
     const client = await prisma.findFirst('client', { where: { dni } });
     if (!client) throw new Error('Cliente no encontrado');
     if (!client.password) throw new Error('Credenciales inválidas');
-    const valid = await bcrypt.compare(password, client.password);
+    const valid = await bcrypt.compare(password, client.password as string);
     if (!valid) throw new Error('Credenciales inválidas');
     if (!client.active) throw new Error('Cliente desactivado');
     const loans = await prisma.findMany('loan', { where: { clientId: client.id, status: 'ACTIVE' } });
@@ -60,7 +60,7 @@ export const authService = {
     const token = jwt.sign(
       { userId: client.id, role: 'CLIENT' },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN }
+      { expiresIn: env.JWT_EXPIRES_IN as string | number }
     );
     return { token, client: { id: client.id, firstName: client.firstName, lastName: client.lastName, dni: client.dni } };
   },

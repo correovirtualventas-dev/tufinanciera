@@ -84,7 +84,7 @@ app.get('/api/dolar', async (_req, res) => {
   try {
     const response = await fetch('https://api.bluelytics.com.ar/v2/latest');
     if (response.ok) {
-      const data = await response.json();
+      const data: any = await response.json();
       return res.json({
         blue: data.blue,
         official: data.oficial,
