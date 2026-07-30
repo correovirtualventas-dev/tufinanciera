@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Plus, Search, FileText, Trash2, Download } from 'lucide-react';
 import { formatCurrency, formatDate } from '../lib/format';
-import { calculateFrenchInstallment, generateFrenchAmortization, calculateEndDate } from '../lib/format';
+import { calculateFrenchInstallment, generateFrenchAmortization } from '../lib/format';
 
 export default function Loans() {
   const [search, setSearch] = useState('');
