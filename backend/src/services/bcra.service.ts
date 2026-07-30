@@ -6,7 +6,7 @@ export const bcraService = {
         signal: AbortSignal.timeout(5000),
       });
       if (response.ok) {
-        const data = await response.json();
+        const data: any = await response.json();
         return {
           dni,
           cuit,

@@ -25,16 +25,16 @@ function toSnake(str: string): string {
   return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
 }
 
-function convertKeysToSnake(obj: Record<string, unknown>): Record<string, unknown> {
-  const result: Record<string, unknown> = {};
+function convertKeysToSnake(obj: Record<string, any>): Record<string, any> {
+  const result: Record<string, any> = {};
   for (const key of Object.keys(obj)) {
     result[toSnake(key)] = obj[key];
   }
   return result;
 }
 
-function convertKeysToCamel(obj: Record<string, unknown>): Record<string, unknown> {
-  const result: Record<string, unknown> = {};
+function convertKeysToCamel(obj: Record<string, any>): Record<string, any> {
+  const result: Record<string, any> = {};
   for (const key of Object.keys(obj)) {
     const camelKey = key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
     result[camelKey] = obj[key];
@@ -62,14 +62,14 @@ const TABLES_WITHOUT_TIMESTAMPS = new Set([
   'payments', 'cash_entries', 'expenses', 'notifications', 'expense_categories', 'settings'
 ]);
 
-function addTimestamps(data: Record<string, unknown>, model: string): Record<string, unknown> {
+function addTimestamps(data: Record<string, any>, model: string): Record<string, any> {
   const table = resolveTable(model);
   if (TABLES_WITHOUT_TIMESTAMPS.has(table)) return data;
   const now = new Date().toISOString();
   return { ...data, created_at: now, updated_at: now };
 }
 
-function addUpdateTimestamp(data: Record<string, unknown>, model: string): Record<string, unknown> {
+function addUpdateTimestamp(data: Record<string, any>, model: string): Record<string, any> {
   const table = resolveTable(model);
   if (TABLES_WITHOUT_TIMESTAMPS.has(table)) return data;
   return { ...data, updated_at: new Date().toISOString() };
@@ -200,10 +200,11 @@ export const prisma = {
     const snakeWhere = convertKeysToSnake(params.where);
     const snakeData = convertKeysToSnake(params.data);
     const dataWithTimestamp = addUpdateTimestamp(snakeData, model);
-    let query = supabase.from(table).update(dataWithTimestamp).select().single();
+    let query: any = supabase.from(table).update(dataWithTimestamp);
     for (const [key, value] of Object.entries(snakeWhere)) {
       if (value !== undefined) query = query.eq(key, value);
     }
+    query = query.select().single();
     const { data, error } = await query;
     if (error) throw error;
     return data ? convertKeysToCamel(data) : null;
@@ -212,10 +213,11 @@ export const prisma = {
   async delete(model: string, params: { where: Record<string, unknown> }) {
     const table = resolveTable(model);
     const snakeWhere = convertKeysToSnake(params.where);
-    let query = supabase.from(table).delete().select().single();
+    let query: any = supabase.from(table).delete();
     for (const [key, value] of Object.entries(snakeWhere)) {
       if (value !== undefined) query = query.eq(key, value);
     }
+    query = query.select().single();
     const { data, error } = await query;
     if (error) throw error;
     return data ? convertKeysToCamel(data) : null;

@@ -18,7 +18,7 @@ export const authService = {
     const token = jwt.sign(
       { userId: user.id, role: user.role },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN as string | number }
+      { expiresIn: env.JWT_EXPIRES_IN } as any
     );
     return { token, user: { id: user.id, name: user.name, email: user.email, role: user.role } };
   },
@@ -43,7 +43,7 @@ export const authService = {
     const token = jwt.sign(
       { userId: investor.id, role: 'INVESTOR' },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN as string | number }
+      { expiresIn: env.JWT_EXPIRES_IN } as any
     );
     return { token, investor: { id: investor.id, name: investor.name, currency: investor.currency } };
   },
@@ -60,7 +60,7 @@ export const authService = {
     const token = jwt.sign(
       { userId: client.id, role: 'CLIENT' },
       env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN as string | number }
+      { expiresIn: env.JWT_EXPIRES_IN } as any
     );
     return { token, client: { id: client.id, firstName: client.firstName, lastName: client.lastName, dni: client.dni } };
   },
