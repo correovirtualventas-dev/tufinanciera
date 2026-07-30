@@ -76,6 +76,10 @@ app.use('/api/exchange', exchangeRoutes);
 app.use('/api/investors', investorsRoutes);
 app.use('/api/prospects', prospectsRoutes);
 
+app.post('/api/test-body', (req, res) => {
+  res.json({ body: req.body, keys: req.body ? Object.keys(req.body) : null });
+});
+
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
