@@ -76,6 +76,9 @@ app.use('/api/exchange', exchangeRoutes);
 app.use('/api/investors', investorsRoutes);
 app.use('/api/prospects', prospectsRoutes);
 
+app.get('/api/test-500', (_req, res) => {
+  res.status(500).json({ error: 'test 500 error', detail: 'this is a test' });
+});
 app.post('/api/test-body', (req, res) => {
   res.json({ body: req.body, keys: req.body ? Object.keys(req.body) : null });
 });
