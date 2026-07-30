@@ -6,14 +6,10 @@ export const authController = {
   async login(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const { nameOrEmail, password } = req.body;
-      if (!nameOrEmail || !password) {
-        return res.status(400).json({ error: 'Faltan credenciales', body: req.body });
-      }
       const result = await authService.login(nameOrEmail, password);
       res.json(result);
     } catch (err: any) {
-      console.error('[LOGIN ERROR]', err?.message, err?.stack?.slice(0, 300));
-      return res.status(400).json({ error: err?.message || 'Error login' });
+      next(err);
     }
   },
 
