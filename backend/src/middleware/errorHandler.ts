@@ -9,10 +9,11 @@ export class AppError extends Error {
   }
 }
 
-export function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction) {
+export function errorHandler(err: any, _req: Request, res: Response, _next: NextFunction) {
+  console.error('[ERROR]', err?.message || err, err?.stack?.slice(0, 200));
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({ error: err.message });
   }
-  console.error('Error:', err);
-  return res.status(500).json({ error: 'Error interno del servidor' });
+  const msg = typeof err === 'string' ? err : (err?.message || 'Error interno del servidor');
+  return res.status(500).json({ error: msg });
 }
