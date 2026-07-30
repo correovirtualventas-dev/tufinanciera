@@ -33,10 +33,6 @@ const corsOrigins = [
   'https://tufinanciera-api.vercel.app',
 ];
 
-app.use((req, _res, next) => {
-  console.log('[REQ]', req.method, req.path);
-  next();
-});
 app.use(cors({
   origin: corsOrigins,
   credentials: true,
@@ -111,11 +107,7 @@ if (env.NODE_ENV === 'development') {
 
 app.use(errorHandler);
 
-try {
-  authService.seedAdmin().catch(console.error);
-  startInvestorsCron();
-} catch (e) {
-  console.error('[APP INIT ERROR]', e);
-}
+authService.seedAdmin().catch(console.error);
+startInvestorsCron();
 
 export default app;
