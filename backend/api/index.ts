@@ -3,7 +3,7 @@ import express from 'express';
 const app = express();
 
 app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok' });
+  res.json({ status: 'ok', env: process.env.NODE_ENV });
 });
 
 app.get('/api/env-test', (_req, res) => {
