@@ -40,7 +40,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Clientes Activos" value={metrics?.totalClients || 0} icon={Users} color="primary" />
         <StatCard title="Total Préstamos" value={metrics?.totalLoans || 0} icon={Handshake} color="primary" />
-        <StatCard title="Prospectos" value={Object.values(metrics?.prospects || {}).reduce((a: number, b: number) => a + b, 0)} icon={Target} color="tertiary" />
+        <StatCard title="Prospectos" value={(Object.values(metrics?.prospects || {}) as number[]).reduce((a, b) => a + b, 0)} icon={Target} color="tertiary" />
         <StatCard title="Inversores" value={metrics?.totalInvestors || 0} icon={PiggyBank} color="tertiary" />
         <StatCard title="Préstamos Activos" value={metrics?.activeLoans || 0} icon={CheckCircle} color="secondary" />
         <StatCard title="Vencidos" value={metrics?.overdueLoans || 0} icon={AlertTriangle} color="red" />
