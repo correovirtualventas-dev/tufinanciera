@@ -13,7 +13,7 @@ export const authController = {
       res.json(result);
     } catch (err: any) {
       console.error('[LOGIN ERROR]', err?.message, err?.stack?.slice(0, 300));
-      return res.status(500).json({ error: err?.message || 'Error login', detail: typeof err });
+      return res.status(400).json({ error: err?.message || 'Error login' });
     }
   },
 
