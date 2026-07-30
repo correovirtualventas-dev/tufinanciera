@@ -81,7 +81,7 @@ Expiración: 8h (configurable via JWT_EXPIRES_IN)
 | Proyecto | URL | Tipo |
 |----------|-----|------|
 | Frontend | app.tufinanciera.com | SPA con rewrites |
-| Backend | backend-tau-lake-99.vercel.app | Serverless via api/index.ts |
+| Backend | tufinanciera-api.vercel.app | Serverless via api/index.ts |
 | Landing | tufinanciera.com | Estático |
 
 ### Backend en Vercel
