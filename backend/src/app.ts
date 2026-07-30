@@ -28,10 +28,9 @@ const app = express();
 const corsOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
-  'https://app.tufinanciera.com',
-  'https://tufinanciera.com',
-  'https://www.tufinanciera.com',
-  'https://backend-tau-lake-99.vercel.app',
+  'https://tufinanciera-frontend.vercel.app',
+  'https://tufinanciera-landing.vercel.app',
+  'https://tufinanciera-api.vercel.app',
 ];
 
 app.use(cors({
