@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { margin: 0; -webkit-font-smoothing: antialiased; }
+html { scroll-behavior: smooth; }
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s;
+}
+
+.bg-gradient-hero {
+  background: linear-gradient(135deg, #0a0a10 0%, #1a1a2e 50%, #0f3460 100%);
+}

@@ -1,0 +1,20 @@
+import { Router } from 'express';
+import { clientsController } from '../controllers/clients.controller';
+import { authenticate, requireAdmin } from '../middleware/auth';
+
+const router = Router();
+router.get('/', authenticate, clientsController.list);
+router.get('/:id', authenticate, clientsController.getById);
+router.get('/:id/loans', authenticate, clientsController.getLoans);
+router.post('/:id/password', authenticate, clientsController.setPassword);
+router.post('/', authenticate, clientsController.create);
+router.patch('/:id', authenticate, clientsController.update);
+router.patch('/:id/toggle-active', authenticate, clientsController.toggleActive);
+router.delete('/:id', authenticate, clientsController.delete);
+router.post('/:id/documents', authenticate, clientsController.addDocument);
+router.delete('/:id/documents/:docId', authenticate, clientsController.deleteDocument);
+router.post('/:id/guarantees', authenticate, clientsController.addGuarantee);
+router.delete('/:id/guarantees/:guaranteeId', authenticate, clientsController.deleteGuarantee);
+router.post('/:id/relationships', authenticate, clientsController.addRelationship);
+router.delete('/:id/relationships/:relId', authenticate, clientsController.deleteRelationship);
+export default router;

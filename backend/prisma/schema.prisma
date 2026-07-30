@@ -1,0 +1,250 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  email     String   @unique
+  password  String
+  role      String   @default("ADMIN")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  cashRegisters CashRegister[]
+
+  @@map("users")
+}
+
+model Client {
+  id         Int      @id @default(autoincrement())
+  firstName  String   @map("first_name")
+  lastName   String   @map("last_name")
+  dni        String   @unique
+  cuit       String?  @unique
+  phone      String?
+  email      String?
+  address    String?
+  localidad  String?
+  activity   String?
+  income     Float?
+  score      Int?
+  notes      String?
+  avalName   String?  @map("aval_name")
+  referidoPor String? @map("referido_por")
+  password   String?
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  loans         Loan[]
+  documents     ClientDocument[]
+  guarantees    ClientGuarantee[]
+  relationships ClientRelationship[]
+
+  @@map("clients")
+}
+
+model ClientDocument {
+  id        Int      @id @default(autoincrement())
+  clientId  Int      @map("client_id")
+  type      String
+  name      String
+  url       String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@map("client_documents")
+}
+
+model ClientGuarantee {
+  id        Int      @id @default(autoincrement())
+  clientId  Int      @map("client_id")
+  type      String
+  detail    String?
+  value     Float?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@map("client_guarantees")
+}
+
+model ClientRelationship {
+  id        Int      @id @default(autoincrement())
+  clientId  Int      @map("client_id")
+  name      String
+  relation  String
+  phone     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@map("client_relationships")
+}
+
+model Loan {
+  id                Int      @id @default(autoincrement())
+  clientId          Int      @map("client_id")
+  amount            Float
+  interestRate      Float    @map("interest_rate")
+  totalAmount       Float    @map("total_amount")
+  installments      Int
+  installmentAmount Float    @map("installment_amount")
+  startDate         DateTime @map("start_date")
+  endDate           DateTime @map("end_date")
+  status            String   @default("ACTIVE")
+  notes             String?
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  client   Client    @relation(fields: [clientId], references: [id])
+  payments Payment[]
+
+  @@index([status])
+  @@index([clientId])
+  @@index([createdAt])
+  @@map("loans")
+}
+
+model Payment {
+  id         Int      @id @default(autoincrement())
+  loanId     Int      @map("loan_id")
+  installment Int
+  amount     Float
+  paidAt     DateTime @default(now()) @map("paid_at")
+  notes      String?
+
+  loan Loan @relation(fields: [loanId], references: [id])
+
+  @@map("payments")
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  type      String
+  message   String
+  read      Boolean  @default(false)
+  clientId  Int?     @map("client_id")
+  loanId    Int?     @map("loan_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("notifications")
+}
+
+model CashRegister {
+  id         Int         @id @default(autoincrement())
+  date       DateTime
+  openAmount Float       @map("open_amount")
+  closeAmount Float?     @map("close_amount")
+  totalIn    Float       @default(0) @map("total_in")
+  totalOut   Float       @default(0) @map("total_out")
+  balance    Float       @default(0)
+  status     String      @default("OPEN")
+  notes      String?
+  userId     Int         @map("user_id")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+
+  user    User        @relation(fields: [userId], references: [id])
+  entries CashEntry[]
+
+  @@map("cash_registers")
+}
+
+model CashEntry {
+  id              Int      @id @default(autoincrement())
+  cashRegisterId  Int      @map("cash_register_id")
+  type            String
+  category        String
+  description     String
+  amount          Float
+  referenceId     Int?     @map("reference_id")
+  referenceType   String?  @map("reference_type")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  cashRegister CashRegister @relation(fields: [cashRegisterId], references: [id])
+
+  @@map("cash_entries")
+}
+
+model ExpenseCategory {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+
+  expenses Expense[]
+
+  @@map("expense_categories")
+}
+
+model Expense {
+  id         Int      @id @default(autoincrement())
+  categoryId Int      @map("category_id")
+  description String
+  amount     Float
+  date       DateTime
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  category ExpenseCategory @relation(fields: [categoryId], references: [id])
+
+  @@map("expenses")
+}
+
+model Settings {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("settings")
+}
+
+model ExchangeOperation {
+  id         Int      @id @default(autoincrement())
+  type       String
+  amountARS  Float    @map("amount_ars")
+  amountUSD  Float    @map("amount_usd")
+  rate       Float
+  clientName String?  @map("client_name")
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("exchange_operations")
+}
+
+model Prospect {
+  id           Int      @id @default(autoincrement())
+  firstName    String   @map("first_name")
+  lastName     String   @map("last_name")
+  dni          String?
+  phone        String?
+  email        String?
+  address      String?
+  localidad    String?
+  activity     String?
+  income       Float?
+  amount       Float?
+  installments Int?
+  notes        String?
+  temperature  String?
+  qualification String?
+  status       String   @default("NEW")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("prospects")
+}

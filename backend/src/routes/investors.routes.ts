@@ -1,0 +1,22 @@
+import { Router } from 'express';
+import { investorsController } from '../controllers/investors.controller';
+import { authenticate, requireAdmin } from '../middleware/auth';
+import { requireInvestorListBlock, requireOwnInvestorAccess } from '../middleware/investorAuth';
+
+const router = Router();
+router.get('/', authenticate, requireInvestorListBlock, investorsController.list);
+router.get('/:id', authenticate, requireOwnInvestorAccess, investorsController.getById);
+router.post('/', authenticate, requireAdmin, investorsController.create);
+router.patch('/:id', authenticate, requireAdmin, investorsController.update);
+router.delete('/:id', authenticate, requireAdmin, investorsController.delete);
+router.get('/:id/summary', authenticate, requireOwnInvestorAccess, investorsController.getSummary);
+router.post('/movements', authenticate, requireAdmin, investorsController.createMovement);
+router.delete('/movements/:id', authenticate, requireAdmin, investorsController.deleteMovement);
+router.get('/:id/accruals', authenticate, requireOwnInvestorAccess, investorsController.listAccruals);
+router.post('/:id/accruals/recalculate', authenticate, requireAdmin, investorsController.recalculateAccruals);
+router.delete('/accruals/:id', authenticate, requireAdmin, investorsController.deleteAccrual);
+router.post('/payouts', authenticate, requireAdmin, investorsController.createPayout);
+router.delete('/payouts/:id', authenticate, requireAdmin, investorsController.deletePayout);
+router.patch('/:id/password', authenticate, requireAdmin, investorsController.setPassword);
+router.post('/cron/process', authenticate, requireAdmin, investorsController.processDailyAccruals);
+export default router;
