@@ -1,19 +1,23 @@
-export const config = { maxDuration: 30 };
+import express from 'express';
 
-function createHandler() {
+const app = express();
+
+app.get('/api/health', (_req, res) => {
+  res.json({ status: 'ok' });
+});
+
+app.get('/api/test-import', async (_req, res) => {
   try {
-    const mod = require('../src/app');
-    return mod.default || mod;
+    const mod = await import('../src/app');
+    res.json({ loaded: true, hasDefault: !!mod.default, keys: Object.keys(mod) });
   } catch (e: any) {
-    console.error('[API] Init error:', e?.message);
-    return (req: any, res: any) => {
-      res.status(500).json({
-        error: 'Server init failed',
-        message: e?.message,
-        stack: e?.stack?.split('\n').slice(0, 3).join(' | '),
-      });
-    };
+    res.json({ loaded: false, error: e?.message });
   }
-}
+});
 
-export default createHandler();
+app.all('/api/*', (req, res) => {
+  res.status(404).json({ error: 'Not found', path: req.path });
+});
+
+export const config = { maxDuration: 30 };
+export default app;
