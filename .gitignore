@@ -8,3 +8,5 @@ dist/
 
 tsconfig.tsbuildinfo
 *.tsbuildinfo
+
+package-lock.json
