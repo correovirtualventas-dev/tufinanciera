@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 import { Plus, Trash2, Upload, X } from 'lucide-react';
 
 const DOC_CATEGORIES = ['DNI Frente', 'DNI Dorso', 'Recibo de Sueldo', 'Impuesto o Servicio', 'Otros'];
+const NEW_CATEGORY = '__new__';
+const MAX_DOCS = 5;
 
 interface DocumentsSectionProps {
   clientId: number;
@@ -18,6 +20,7 @@ export default function DocumentsSection({ clientId, documents }: DocumentsSecti
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<{ dataUrl: string; fileName: string } | null>(null);
   const [category, setCategory] = useState(DOC_CATEGORIES[0]);
+  const [newCategory, setNewCategory] = useState('');
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
 
@@ -31,23 +34,34 @@ export default function DocumentsSection({ clientId, documents }: DocumentsSecti
       toast.error('Solo se permiten imágenes');
       return;
     }
+    if ((documents?.length || 0) >= MAX_DOCS) {
+      toast.error(`Máximo ${MAX_DOCS} documentos por cliente`);
+      return;
+    }
     const dataUrl = await compressImage(file);
     setCategory(DOC_CATEGORIES[0]);
+    setNewCategory('');
     setDescription('');
     setPending({ dataUrl, fileName: file.name });
   };
 
   const handleUpload = async () => {
     if (!pending) return;
+    const finalCategory = category === NEW_CATEGORY ? newCategory.trim() : category;
+    if (category === NEW_CATEGORY && !finalCategory) {
+      toast.error('Ingresá el nombre de la nueva categoría');
+      return;
+    }
     setUploading(true);
     try {
       await addDocument(clientId, {
-        type: category,
+        type: finalCategory,
         name: description || pending.fileName,
         url: pending.dataUrl,
       });
       toast.success('Documento cargado');
       setPending(null);
+      setNewCategory('');
       setDescription('');
       invalidate();
     } catch (err: any) {
@@ -67,7 +81,13 @@ export default function DocumentsSection({ clientId, documents }: DocumentsSecti
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <button onClick={() => fileInputRef.current?.click()}
+        <button onClick={() => {
+          if ((documents?.length || 0) >= MAX_DOCS) {
+            toast.error(`Máximo ${MAX_DOCS} documentos por cliente`);
+            return;
+          }
+          fileInputRef.current?.click();
+        }}
           className="flex items-center gap-2 px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg text-sm">
           <Plus size={16} /> Agregar Documento
         </button>
@@ -91,7 +111,13 @@ export default function DocumentsSection({ clientId, documents }: DocumentsSecti
               <select value={category} onChange={e => setCategory(e.target.value)}
                 className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
                 {DOC_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                <option value={NEW_CATEGORY}>Nueva categoría...</option>
               </select>
+              {category === NEW_CATEGORY && (
+                <input value={newCategory} onChange={e => setNewCategory(e.target.value)}
+                  placeholder="Nombre de la nueva categoría"
+                  className="mt-2 w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
+              )}
             </div>
             <div>
               <label className="block text-sm text-slate-500 mb-1">Descripción {category === 'Otros' && <span className="text-slate-400">(título automotor, inmueble, etc.)</span>}</label>
