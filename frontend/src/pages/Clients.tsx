@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getClients, createClient, updateClient, deleteClient, toggleClientActive } from '../api/clients';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Plus, Search, Edit2, Trash2, ToggleLeft, ToggleRight, Eye } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, ToggleLeft, ToggleRight, Eye, User } from 'lucide-react';
 
 export default function Clients() {
   const [search, setSearch] = useState('');
@@ -109,9 +109,18 @@ export default function Clients() {
               {paginatedClients?.map((client: any) => (
                 <tr key={client.id} className="border-b border-slate-100 hover:bg-slate-100">
                   <td className="py-3 px-4">
-                    <Link to={`/clients/${client.id}`} className="text-slate-900 hover:text-primary-500">
-                      {client.firstName} {client.lastName}
-                    </Link>
+                    <div className="flex items-center gap-3">
+                      {client.dniFrontUrl ? (
+                        <img src={client.dniFrontUrl} alt="DNI frente" className="w-10 h-10 rounded-lg object-cover border border-slate-200 flex-shrink-0" />
+                      ) : (
+                        <div className="w-10 h-10 rounded-lg bg-surface-400 border border-slate-200 flex items-center justify-center text-slate-400 flex-shrink-0">
+                          <User size={16} />
+                        </div>
+                      )}
+                      <Link to={`/clients/${client.id}`} className="text-slate-900 hover:text-primary-500">
+                        {client.firstName} {client.lastName}
+                      </Link>
+                    </div>
                   </td>
                   <td className="py-3 px-4 text-slate-700">{client.dni}</td>
                   <td className="py-3 px-4 text-slate-700">{client.phone || '-'}</td>
