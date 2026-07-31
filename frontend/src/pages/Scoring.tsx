@@ -40,14 +40,14 @@ export default function Scoring() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">Scoring y BCRA</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Scoring y BCRA</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
-          <h3 className="text-white font-semibold mb-4">Consulta BCRA</h3>
+        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+          <h3 className="text-slate-900 font-semibold mb-4">Consulta BCRA</h3>
           <div className="flex gap-3">
             <input type="text" value={dni} onChange={e => setDni(e.target.value)}
-              placeholder="Ingresar DNI..." className="flex-1 bg-surface-400 border border-white/10 rounded-lg px-4 py-3 text-white" />
+              placeholder="Ingresar DNI..." className="flex-1 bg-surface-400 border border-slate-200 rounded-lg px-4 py-3 text-slate-900" />
             <button onClick={() => bcraMutation.mutate(dni)} disabled={!dni}
               className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-3 rounded-lg flex items-center gap-2">
               <Search size={18} /> Consultar
@@ -55,20 +55,20 @@ export default function Scoring() {
           </div>
           {bcraResult && (
             <div className="mt-4 bg-surface-400 rounded-lg p-4 space-y-2">
-              <p className="text-white">CUIT: {bcraResult.cuit}</p>
-              <p className="text-white/80">Situación: {bcraResult.situacion}</p>
-              <p className="text-white/80">Riesgo: {bcraResult.riesgo}</p>
-              <p className="text-white">Score BCRA: {bcraResult.score}</p>
+              <p className="text-slate-900">CUIT: {bcraResult.cuit}</p>
+              <p className="text-slate-700">SituaciÃ³n: {bcraResult.situacion}</p>
+              <p className="text-slate-700">Riesgo: {bcraResult.riesgo}</p>
+              <p className="text-slate-900">Score BCRA: {bcraResult.score}</p>
               <p className="text-secondary-500">{bcraResult.recomendacion}</p>
             </div>
           )}
         </div>
 
-        <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
-          <h3 className="text-white font-semibold mb-4">Recálculo de Score</h3>
+        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+          <h3 className="text-slate-900 font-semibold mb-4">RecÃ¡lculo de Score</h3>
           <div className="flex gap-3">
             <select value={clientId} onChange={e => setClientId(e.target.value)}
-              className="flex-1 bg-surface-400 border border-white/10 rounded-lg px-3 py-3 text-white">
+              className="flex-1 bg-surface-400 border border-slate-200 rounded-lg px-3 py-3 text-slate-900">
               <option value="">Seleccionar cliente</option>
               {(clients || []).map((c: any) => (
                 <option key={c.id} value={c.id}>{c.firstName} {c.lastName} - {c.dni}</option>
@@ -81,53 +81,53 @@ export default function Scoring() {
           </div>
           {scoreDetails && (
             <div className="mt-4 bg-surface-400 rounded-lg p-4">
-              <p className="text-white">Score: {scoreDetails.score}</p>
+              <p className="text-slate-900">Score: {scoreDetails.score}</p>
               <p className={`text-${scoreDetails.category.color}-500`}>{scoreDetails.category.label}</p>
             </div>
           )}
         </div>
       </div>
 
-      <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
-        <h3 className="text-white font-semibold mb-4">Simulador de Scoring</h3>
+      <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+        <h3 className="text-slate-900 font-semibold mb-4">Simulador de Scoring</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm text-white/60 mb-1">Ingresos</label>
+            <label className="block text-sm text-slate-500 mb-1">Ingresos</label>
             <input type="number" value={simFactors.income} onChange={e => setSimFactors({ ...simFactors, income: Number(e.target.value) })}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+              className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Monto Préstamo</label>
+            <label className="block text-sm text-slate-500 mb-1">Monto PrÃ©stamo</label>
             <input type="number" value={simFactors.loanAmount} onChange={e => setSimFactors({ ...simFactors, loanAmount: Number(e.target.value) })}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+              className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Préstamos activos</label>
+            <label className="block text-sm text-slate-500 mb-1">PrÃ©stamos activos</label>
             <input type="number" value={simFactors.existingLoans} onChange={e => setSimFactors({ ...simFactors, existingLoans: Number(e.target.value) })}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+              className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Pagos atrasados</label>
+            <label className="block text-sm text-slate-500 mb-1">Pagos atrasados</label>
             <input type="number" value={simFactors.latePayments} onChange={e => setSimFactors({ ...simFactors, latePayments: Number(e.target.value) })}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+              className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Antigüedad (meses)</label>
+            <label className="block text-sm text-slate-500 mb-1">AntigÃ¼edad (meses)</label>
             <input type="number" value={simFactors.timeAsClient} onChange={e => setSimFactors({ ...simFactors, timeAsClient: Number(e.target.value) })}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+              className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Garantías</label>
+            <label className="block text-sm text-slate-500 mb-1">GarantÃ­as</label>
             <select value={String(simFactors.hasGuarantees)} onChange={e => setSimFactors({ ...simFactors, hasGuarantees: e.target.value === 'true' })}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white">
-              <option value="true">Sí</option>
+              className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
+              <option value="true">SÃ­</option>
               <option value="false">No</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Estabilidad laboral</label>
+            <label className="block text-sm text-slate-500 mb-1">Estabilidad laboral</label>
             <select value={simFactors.employmentStability} onChange={e => setSimFactors({ ...simFactors, employmentStability: e.target.value })}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white">
+              className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
               <option value="high">Alta</option>
               <option value="medium">Media</option>
               <option value="low">Baja</option>

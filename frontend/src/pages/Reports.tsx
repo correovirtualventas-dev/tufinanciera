@@ -4,8 +4,8 @@ import { FileText, Download } from 'lucide-react';
 
 const reports = [
   { label: 'Clientes', path: '/reports/clients' },
-  { label: 'Préstamos Activos', path: '/reports/loans/active' },
-  { label: 'Préstamos Vencidos', path: '/reports/loans/overdue' },
+  { label: 'PrÃ©stamos Activos', path: '/reports/loans/active' },
+  { label: 'PrÃ©stamos Vencidos', path: '/reports/loans/overdue' },
   { label: 'Pagos', path: '/reports/payments' },
   { label: 'Dashboard', path: '/reports/dashboard' },
   { label: 'Exchange', path: '/reports/exchange' },
@@ -31,23 +31,23 @@ export default function Reports() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">Reportes</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Reportes</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {reports.map((report) => (
           <button
             key={report.path}
             onClick={() => downloadReport(report.path, report.label)}
-            className="bg-surface-100 rounded-xl p-6 border border-white/5 hover:border-primary-500/50 transition-all text-left group"
+            className="bg-surface-100 rounded-xl p-6 border border-slate-100 hover:border-primary-500/50 transition-all text-left group"
           >
             <div className="flex items-center gap-3">
               <div className="p-3 bg-primary-500/10 rounded-lg text-primary-500 group-hover:bg-primary-500/20 transition-colors">
                 <FileText size={24} />
               </div>
               <div className="flex-1">
-                <p className="text-white font-semibold">{report.label}</p>
-                <p className="text-white/60 text-sm">PDF</p>
+                <p className="text-slate-900 font-semibold">{report.label}</p>
+                <p className="text-slate-500 text-sm">PDF</p>
               </div>
-              <Download size={18} className="text-white/40 group-hover:text-white transition-colors" />
+              <Download size={18} className="text-slate-400 group-hover:text-slate-900 transition-colors" />
             </div>
           </button>
         ))}

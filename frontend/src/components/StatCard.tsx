@@ -17,11 +17,11 @@ export default function StatCard({ title, value, icon: Icon, color = 'primary' }
   };
 
   return (
-    <div className="bg-surface-100 rounded-xl p-5 border border-white/5 hover:border-white/10 transition-all">
+    <div className="bg-surface-100 rounded-xl p-5 border border-slate-100 hover:border-slate-200 transition-all">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-white/60 text-sm">{title}</p>
-          <p className="text-2xl font-bold text-white mt-1">
+          <p className="text-slate-500 text-sm">{title}</p>
+          <p className="text-2xl font-bold text-slate-900 mt-1">
             {typeof value === 'number' ? value.toLocaleString('es-AR') : value}
           </p>
         </div>

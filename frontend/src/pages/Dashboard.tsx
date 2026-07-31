@@ -24,9 +24,9 @@ export default function Dashboard() {
   }
 
   const chartData = metrics ? [
-    { name: 'Activos', value: metrics.activeLoans, fill: '#4de600' },
-    { name: 'Vencidos', value: metrics.overdueLoans, fill: '#ff4444' },
-    { name: 'Cancelados', value: metrics.canceledLoans, fill: '#26cbff' },
+    { name: 'Activos', value: metrics.activeLoans, fill: '#10b981' },
+    { name: 'Vencidos', value: metrics.overdueLoans, fill: '#ef4444' },
+    { name: 'Cancelados', value: metrics.canceledLoans, fill: '#64748b' },
   ] : [];
 
   const collectionRate = metrics?.totalCapital
@@ -35,14 +35,14 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Clientes Activos" value={metrics?.totalClients || 0} icon={Users} color="primary" />
-        <StatCard title="Total Préstamos" value={metrics?.totalLoans || 0} icon={Handshake} color="primary" />
+        <StatCard title="Total PrÃ©stamos" value={metrics?.totalLoans || 0} icon={Handshake} color="primary" />
         <StatCard title="Prospectos" value={(Object.values(metrics?.prospects || {}) as number[]).reduce((a, b) => a + b, 0)} icon={Target} color="tertiary" />
         <StatCard title="Inversores" value={metrics?.totalInvestors || 0} icon={PiggyBank} color="tertiary" />
-        <StatCard title="Préstamos Activos" value={metrics?.activeLoans || 0} icon={CheckCircle} color="secondary" />
+        <StatCard title="PrÃ©stamos Activos" value={metrics?.activeLoans || 0} icon={CheckCircle} color="secondary" />
         <StatCard title="Vencidos" value={metrics?.overdueLoans || 0} icon={AlertTriangle} color="red" />
         <StatCard title="Cancelados" value={metrics?.canceledLoans || 0} icon={Clock} color="tertiary" />
         <StatCard title="Capital Inicial" value={formatCurrency(metrics?.initialCapital || 0)} icon={Wallet} color="amber" />
@@ -53,81 +53,81 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
-          <h3 className="text-white font-semibold mb-4">Exchange</h3>
+        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+          <h3 className="text-slate-900 font-semibold mb-4">Exchange</h3>
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between text-white/60">
+            <div className="flex justify-between text-slate-500">
               <span>USD Comprados</span>
-              <span className="text-white">{metrics?.exchange.totalBoughtUSD.toFixed(2)}</span>
+              <span className="text-slate-900">{metrics?.exchange.totalBoughtUSD.toFixed(2)}</span>
             </div>
-            <div className="flex justify-between text-white/60">
+            <div className="flex justify-between text-slate-500">
               <span>USD Vendidos</span>
-              <span className="text-white">{metrics?.exchange.totalSoldUSD.toFixed(2)}</span>
+              <span className="text-slate-900">{metrics?.exchange.totalSoldUSD.toFixed(2)}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
-          <h3 className="text-white font-semibold mb-4">Créditos</h3>
+        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+          <h3 className="text-slate-900 font-semibold mb-4">CrÃ©ditos</h3>
           <div className="text-3xl font-bold text-secondary-500">{formatCurrency(metrics?.totalCapital || 0)}</div>
-          <p className="text-white/60 text-sm mt-1">Total prestado</p>
+          <p className="text-slate-500 text-sm mt-1">Total prestado</p>
         </div>
 
-        <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
-          <h3 className="text-white font-semibold mb-4">Inversiones</h3>
+        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+          <h3 className="text-slate-900 font-semibold mb-4">Inversiones</h3>
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between text-white/60">
+            <div className="flex justify-between text-slate-500">
               <span>Capital ARS</span>
-              <span className="text-white">{formatCurrency(metrics?.totalInvestorDeposits || 0)}</span>
+              <span className="text-slate-900">{formatCurrency(metrics?.totalInvestorDeposits || 0)}</span>
             </div>
-            <div className="flex justify-between text-white/60">
+            <div className="flex justify-between text-slate-500">
               <span>Capital USD</span>
-              <span className="text-white">${(metrics?.totalInvestorDepositsUsd || 0).toFixed(2)}</span>
+              <span className="text-slate-900">${(metrics?.totalInvestorDepositsUsd || 0).toFixed(2)}</span>
             </div>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
-          <h3 className="text-white font-semibold mb-4">Distribución de Préstamos</h3>
+        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+          <h3 className="text-slate-900 font-semibold mb-4">DistribuciÃ³n de PrÃ©stamos</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-              <XAxis dataKey="name" stroke="#666" />
-              <YAxis stroke="#666" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <XAxis dataKey="name" stroke="#94a3b8" />
+              <YAxis stroke="#94a3b8" />
               <Tooltip
-                contentStyle={{ background: '#1a1a2e', border: '1px solid #333', borderRadius: '8px' }}
-                labelStyle={{ color: '#fff' }}
+                contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}
+                labelStyle={{ color: '#1e293b' }}
               />
               <Bar dataKey="value" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
-          <h3 className="text-white font-semibold mb-4">Intereses</h3>
+        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+          <h3 className="text-slate-900 font-semibold mb-4">Intereses</h3>
           <div className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-white/60">Interés Cobrado</span>
+              <span className="text-slate-500">InterÃ©s Cobrado</span>
               <span className="text-secondary-500 font-bold">{formatCurrency(metrics?.totalInterestCollected || 0)}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-white/60">Interés Pendiente</span>
+              <span className="text-slate-500">InterÃ©s Pendiente</span>
               <span className="text-amber font-bold">{formatCurrency(metrics?.totalInterestPending || 0)}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-white/60">Interés Proyectado</span>
+              <span className="text-slate-500">InterÃ©s Proyectado</span>
               <span className="text-tertiary-500 font-bold">{formatCurrency(metrics?.projectedProfit || 0)}</span>
             </div>
           </div>
 
-          <h3 className="text-white font-semibold mt-6 mb-4">Alertas de Crédito</h3>
+          <h3 className="text-slate-900 font-semibold mt-6 mb-4">Alertas de CrÃ©dito</h3>
           <div className="space-y-3">
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-white/60">Morosidad</span>
-                <span className="text-white">{metrics?.overdueLoans || 0} vencidos</span>
+                <span className="text-slate-500">Morosidad</span>
+                <span className="text-slate-900">{metrics?.overdueLoans || 0} vencidos</span>
               </div>
               <div className="h-2 bg-surface-400 rounded-full overflow-hidden">
                 <div
@@ -138,8 +138,8 @@ export default function Dashboard() {
             </div>
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-white/60">Rendimiento</span>
-                <span className="text-white">{collectionRate}%</span>
+                <span className="text-slate-500">Rendimiento</span>
+                <span className="text-slate-900">{collectionRate}%</span>
               </div>
               <div className="h-2 bg-surface-400 rounded-full overflow-hidden">
                 <div
@@ -153,12 +153,12 @@ export default function Dashboard() {
       </div>
 
       {metrics?.monthlyBreakdown && metrics.monthlyBreakdown.length > 0 && (
-        <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
-          <h3 className="text-white font-semibold mb-4">Cobros por Mes</h3>
+        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+          <h3 className="text-slate-900 font-semibold mb-4">Cobros por Mes</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-white/60 border-b border-white/10">
+                <tr className="text-slate-500 border-b border-slate-200">
                   <th className="text-left py-2">Mes</th>
                   <th className="text-right py-2">Bruto</th>
                   <th className="text-right py-2">Neto</th>
@@ -168,12 +168,12 @@ export default function Dashboard() {
               </thead>
               <tbody>
                 {metrics.monthlyBreakdown.map((m: any) => (
-                  <tr key={m.month} className="border-b border-white/5 hover:bg-white/5">
-                    <td className="py-2 text-white">{m.month}</td>
-                    <td className="py-2 text-right text-white">{formatCurrency(m.gross)}</td>
-                    <td className="py-2 text-right text-white">{formatCurrency(m.net)}</td>
+                  <tr key={m.month} className="border-b border-slate-100 hover:bg-slate-100">
+                    <td className="py-2 text-slate-900">{m.month}</td>
+                    <td className="py-2 text-right text-slate-900">{formatCurrency(m.gross)}</td>
+                    <td className="py-2 text-right text-slate-900">{formatCurrency(m.net)}</td>
                     <td className="py-2 text-right text-secondary-500">{formatCurrency(m.pending)}</td>
-                    <td className="py-2 text-right text-white/60">{m.count}</td>
+                    <td className="py-2 text-right text-slate-500">{m.count}</td>
                   </tr>
                 ))}
               </tbody>

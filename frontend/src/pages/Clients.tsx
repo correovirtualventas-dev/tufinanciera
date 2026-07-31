@@ -69,7 +69,7 @@ export default function Clients() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-white">Clientes</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Clientes</h1>
         <button
           onClick={() => { setEditing(null); setForm({ firstName: '', lastName: '', dni: '', cuit: '', phone: '', email: '', address: '', localidad: '', activity: '', income: 0, notes: '', avalName: '', referidoPor: '' }); setModalOpen(true); }}
           className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
@@ -79,24 +79,24 @@ export default function Clients() {
       </div>
 
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40" size={18} />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
         <input
           type="text"
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(0); }}
           placeholder="Buscar por nombre, apellido o DNI..."
-          className="w-full bg-surface-100 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-primary-500"
+          className="w-full bg-surface-100 border border-slate-200 rounded-lg pl-10 pr-4 py-3 text-slate-900 focus:outline-none focus:border-primary-500"
         />
       </div>
 
-      <div className="bg-surface-100 rounded-xl border border-white/5 overflow-hidden">
+      <div className="bg-surface-100 rounded-xl border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-white/10 text-white/60 text-sm">
+              <tr className="border-b border-slate-200 text-slate-500 text-sm">
                 <th className="text-left py-4 px-4">Nombre</th>
                 <th className="text-left py-4 px-4">DNI</th>
-                <th className="text-left py-4 px-4">Teléfono</th>
+                <th className="text-left py-4 px-4">TelÃ©fono</th>
                 <th className="text-center py-4 px-4">Score</th>
                 <th className="text-center py-4 px-4">Estado</th>
                 <th className="text-right py-4 px-4">Acciones</th>
@@ -104,14 +104,14 @@ export default function Clients() {
             </thead>
             <tbody>
               {paginatedClients?.map((client: any) => (
-                <tr key={client.id} className="border-b border-white/5 hover:bg-white/5">
+                <tr key={client.id} className="border-b border-slate-100 hover:bg-slate-100">
                   <td className="py-3 px-4">
-                    <Link to={`/clients/${client.id}`} className="text-white hover:text-primary-500">
+                    <Link to={`/clients/${client.id}`} className="text-slate-900 hover:text-primary-500">
                       {client.firstName} {client.lastName}
                     </Link>
                   </td>
-                  <td className="py-3 px-4 text-white/80">{client.dni}</td>
-                  <td className="py-3 px-4 text-white/80">{client.phone || '-'}</td>
+                  <td className="py-3 px-4 text-slate-700">{client.dni}</td>
+                  <td className="py-3 px-4 text-slate-700">{client.phone || '-'}</td>
                   <td className="py-3 px-4 text-center">
                     <span className={`px-2 py-1 rounded-full text-xs ${
                       client.score >= 600 ? 'bg-secondary-500/10 text-secondary-500' :
@@ -130,16 +130,16 @@ export default function Clients() {
                   </td>
                   <td className="py-3 px-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <Link to={`/clients/${client.id}`} className="p-2 hover:bg-white/10 rounded-lg text-white/60 hover:text-tertiary-500">
+                      <Link to={`/clients/${client.id}`} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-tertiary-500">
                         <Eye size={16} />
                       </Link>
-                      <button onClick={() => handleEdit(client)} className="p-2 hover:bg-white/10 rounded-lg text-white/60 hover:text-primary-500">
+                      <button onClick={() => handleEdit(client)} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-primary-500">
                         <Edit2 size={16} />
                       </button>
-                      <button onClick={() => toggleMutation.mutate(client.id)} className="p-2 hover:bg-white/10 rounded-lg text-white/60 hover:text-secondary-500">
+                      <button onClick={() => toggleMutation.mutate(client.id)} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-secondary-500">
                         {client.active ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}
                       </button>
-                      <button onClick={() => { if (confirm('¿Eliminar cliente?')) deleteMutation.mutate(client.id); }} className="p-2 hover:bg-white/10 rounded-lg text-white/60 hover:text-red-500">
+                      <button onClick={() => { if (confirm('Â¿Eliminar cliente?')) deleteMutation.mutate(client.id); }} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500">
                         <Trash2 size={16} />
                       </button>
                     </div>
@@ -150,9 +150,9 @@ export default function Clients() {
           </table>
         </div>
         {totalPages > 1 && (
-          <div className="flex justify-center gap-2 p-4 border-t border-white/10">
+          <div className="flex justify-center gap-2 p-4 border-t border-slate-200">
             {Array.from({ length: totalPages }, (_, i) => (
-              <button key={i} onClick={() => setPage(i)} className={`px-3 py-1 rounded ${page === i ? 'bg-primary-500 text-white' : 'bg-surface-400 text-white/60 hover:text-white'}`}>
+              <button key={i} onClick={() => setPage(i)} className={`px-3 py-1 rounded ${page === i ? 'bg-primary-500 text-white' : 'bg-surface-400 text-slate-500 hover:text-slate-900'}`}>
                 {i + 1}
               </button>
             ))}
@@ -163,62 +163,62 @@ export default function Clients() {
       {modalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setModalOpen(false)}>
           <div className="bg-surface-100 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <h2 className="text-xl font-bold text-white mb-4">{editing ? 'Editar' : 'Nuevo'} Cliente</h2>
+            <h2 className="text-xl font-bold text-slate-900 mb-4">{editing ? 'Editar' : 'Nuevo'} Cliente</h2>
             <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
               <div className="col-span-2 sm:col-span-1">
-                <label className="block text-sm text-white/60 mb-1">Nombre *</label>
-                <input required value={form.firstName} onChange={e => setForm({ ...form, firstName: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">Nombre *</label>
+                <input required value={form.firstName} onChange={e => setForm({ ...form, firstName: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div className="col-span-2 sm:col-span-1">
-                <label className="block text-sm text-white/60 mb-1">Apellido *</label>
-                <input required value={form.lastName} onChange={e => setForm({ ...form, lastName: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">Apellido *</label>
+                <input required value={form.lastName} onChange={e => setForm({ ...form, lastName: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-1">DNI *</label>
-                <input required value={form.dni} onChange={e => setForm({ ...form, dni: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">DNI *</label>
+                <input required value={form.dni} onChange={e => setForm({ ...form, dni: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-1">CUIT</label>
-                <input value={form.cuit} onChange={e => setForm({ ...form, cuit: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">CUIT</label>
+                <input value={form.cuit} onChange={e => setForm({ ...form, cuit: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-1">Teléfono</label>
-                <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">TelÃ©fono</label>
+                <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-1">Email</label>
-                <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">Email</label>
+                <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div className="col-span-2">
-                <label className="block text-sm text-white/60 mb-1">Dirección</label>
-                <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">DirecciÃ³n</label>
+                <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-1">Localidad</label>
-                <input value={form.localidad} onChange={e => setForm({ ...form, localidad: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">Localidad</label>
+                <input value={form.localidad} onChange={e => setForm({ ...form, localidad: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-1">Actividad</label>
-                <input value={form.activity} onChange={e => setForm({ ...form, activity: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">Actividad</label>
+                <input value={form.activity} onChange={e => setForm({ ...form, activity: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-1">Ingresos</label>
-                <input type="number" value={form.income} onChange={e => setForm({ ...form, income: Number(e.target.value) })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">Ingresos</label>
+                <input type="number" value={form.income} onChange={e => setForm({ ...form, income: Number(e.target.value) })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-1">Aval</label>
-                <input value={form.avalName} onChange={e => setForm({ ...form, avalName: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">Aval</label>
+                <input value={form.avalName} onChange={e => setForm({ ...form, avalName: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-1">Referido por</label>
-                <input value={form.referidoPor} onChange={e => setForm({ ...form, referidoPor: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">Referido por</label>
+                <input value={form.referidoPor} onChange={e => setForm({ ...form, referidoPor: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div className="col-span-2">
-                <label className="block text-sm text-white/60 mb-1">Notas</label>
-                <textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} rows={3} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+                <label className="block text-sm text-slate-500 mb-1">Notas</label>
+                <textarea value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} rows={3} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div className="col-span-2 flex justify-end gap-3 mt-4">
-                <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-white/60 hover:text-white">Cancelar</button>
+                <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-slate-500 hover:text-slate-900">Cancelar</button>
                 <button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg">{editing ? 'Actualizar' : 'Crear'}</button>
               </div>
             </form>

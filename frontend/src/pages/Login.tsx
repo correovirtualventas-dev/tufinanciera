@@ -19,10 +19,10 @@ export default function Login() {
     try {
       const result = await login(nameOrEmail, password);
       setAuth(result.token, result.user, result.user.role);
-      toast.success('Inicio de sesión exitoso');
+      toast.success('Inicio de sesiÃ³n exitoso');
       navigate('/');
     } catch (err: any) {
-      toast.error(err.response?.data?.error || 'Error al iniciar sesión');
+      toast.error(err.response?.data?.error || 'Error al iniciar sesiÃ³n');
     } finally {
       setLoading(false);
     }
@@ -30,31 +30,31 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-surface-400 flex items-center justify-center">
-      <div className="bg-surface-100 p-8 rounded-2xl border border-white/10 w-full max-w-md">
+      <div className="bg-surface-100 p-8 rounded-2xl border border-slate-200 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-slate-900">
             Tu<span className="text-primary-500">Financiera</span>
           </h1>
-          <p className="text-white/60 mt-2">Inicia sesión para continuar</p>
+          <p className="text-slate-500 mt-2">Inicia sesiÃ³n para continuar</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-white/60 mb-1">Usuario o Email</label>
+            <label className="block text-sm text-slate-500 mb-1">Usuario o Email</label>
             <input
               type="text"
               value={nameOrEmail}
               onChange={(e) => setNameOrEmail(e.target.value)}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors"
+              className="w-full bg-surface-400 border border-slate-200 rounded-lg px-4 py-3 text-slate-900 focus:outline-none focus:border-primary-500 transition-colors"
               placeholder="Ingresa tu usuario"
               required
             />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Contraseña</label>
+            <label className="block text-sm text-slate-500 mb-1">ContraseÃ±a</label>
             <PasswordInput
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Ingresa tu contraseña"
+              placeholder="Ingresa tu contraseÃ±a"
               className="w-full px-4 py-3"
               required
             />

@@ -24,60 +24,60 @@ export default function ProspectDetail() {
   });
 
   if (isLoading) return <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary-500 mx-auto mt-20" />;
-  if (!prospect) return <div className="text-white/60 mt-20 text-center">Prospecto no encontrado</div>;
+  if (!prospect) return <div className="text-slate-500 mt-20 text-center">Prospecto no encontrado</div>;
 
   const data = form || prospect;
   if (!form && prospect) setForm(prospect);
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">{prospect.firstName} {prospect.lastName}</h1>
+      <h1 className="text-2xl font-bold text-slate-900">{prospect.firstName} {prospect.lastName}</h1>
 
-      <div className="bg-surface-100 rounded-xl p-6 border border-white/5">
+      <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm text-white/60 mb-1">Nombre</label>
-            <input value={data.firstName} onChange={e => setForm({ ...data, firstName: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Nombre</label>
+            <input value={data.firstName} onChange={e => setForm({ ...data, firstName: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Apellido</label>
-            <input value={data.lastName} onChange={e => setForm({ ...data, lastName: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Apellido</label>
+            <input value={data.lastName} onChange={e => setForm({ ...data, lastName: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">DNI</label>
-            <input value={data.dni || ''} onChange={e => setForm({ ...data, dni: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">DNI</label>
+            <input value={data.dni || ''} onChange={e => setForm({ ...data, dni: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Teléfono</label>
-            <input value={data.phone || ''} onChange={e => setForm({ ...data, phone: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">TelÃ©fono</label>
+            <input value={data.phone || ''} onChange={e => setForm({ ...data, phone: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Email</label>
-            <input value={data.email || ''} onChange={e => setForm({ ...data, email: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Email</label>
+            <input value={data.email || ''} onChange={e => setForm({ ...data, email: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Localidad</label>
-            <input value={data.localidad || ''} onChange={e => setForm({ ...data, localidad: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Localidad</label>
+            <input value={data.localidad || ''} onChange={e => setForm({ ...data, localidad: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Actividad</label>
-            <input value={data.activity || ''} onChange={e => setForm({ ...data, activity: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Actividad</label>
+            <input value={data.activity || ''} onChange={e => setForm({ ...data, activity: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Ingresos</label>
-            <input type="number" value={data.income || 0} onChange={e => setForm({ ...data, income: Number(e.target.value) })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Ingresos</label>
+            <input type="number" value={data.income || 0} onChange={e => setForm({ ...data, income: Number(e.target.value) })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Monto</label>
-            <input type="number" value={data.amount || 0} onChange={e => setForm({ ...data, amount: Number(e.target.value) })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Monto</label>
+            <input type="number" value={data.amount || 0} onChange={e => setForm({ ...data, amount: Number(e.target.value) })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Cuotas</label>
-            <input type="number" value={data.installments || 0} onChange={e => setForm({ ...data, installments: Number(e.target.value) })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Cuotas</label>
+            <input type="number" value={data.installments || 0} onChange={e => setForm({ ...data, installments: Number(e.target.value) })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Estado</label>
-            <select value={data.status} onChange={e => setForm({ ...data, status: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white">
+            <label className="block text-sm text-slate-500 mb-1">Estado</label>
+            <select value={data.status} onChange={e => setForm({ ...data, status: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
               <option value="NEW">Nuevo</option>
               <option value="CONTACTED">Contactado</option>
               <option value="QUALIFIED">Calificado</option>
@@ -86,17 +86,17 @@ export default function ProspectDetail() {
             </select>
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Temperatura</label>
-            <select value={data.temperature || ''} onChange={e => setForm({ ...data, temperature: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white">
+            <label className="block text-sm text-slate-500 mb-1">Temperatura</label>
+            <select value={data.temperature || ''} onChange={e => setForm({ ...data, temperature: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
               <option value="">-</option>
               <option value="HOT">Caliente</option>
               <option value="WARM">Tibio</option>
-              <option value="COLD">Frío</option>
+              <option value="COLD">FrÃ­o</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Calificación</label>
-            <select value={data.qualification || ''} onChange={e => setForm({ ...data, qualification: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white">
+            <label className="block text-sm text-slate-500 mb-1">CalificaciÃ³n</label>
+            <select value={data.qualification || ''} onChange={e => setForm({ ...data, qualification: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
               <option value="">-</option>
               <option value="A">A</option>
               <option value="B">B</option>
@@ -105,8 +105,8 @@ export default function ProspectDetail() {
             </select>
           </div>
           <div className="col-span-2">
-            <label className="block text-sm text-white/60 mb-1">Notas</label>
-            <textarea value={data.notes || ''} onChange={e => setForm({ ...data, notes: e.target.value })} rows={3} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Notas</label>
+            <textarea value={data.notes || ''} onChange={e => setForm({ ...data, notes: e.target.value })} rows={3} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
         </div>
         <div className="mt-6 flex justify-end">

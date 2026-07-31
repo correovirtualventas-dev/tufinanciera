@@ -25,7 +25,7 @@ export default function App() {
   return (
     <>
       <Toaster position="top-right" toastOptions={{
-        style: { background: '#1a1a2e', color: '#fff', border: '1px solid #333' },
+        style: { background: '#ffffff', color: '#1e293b', border: '1px solid #e2e8f0' },
       }} />
       <Routes>
         <Route path="/login" element={<Login />} />

@@ -45,13 +45,13 @@ export default function Cobros() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div>
-        <h1 className="text-2xl font-bold text-white mb-6">Registrar Pago</h1>
-        <form onSubmit={handleSubmit} className="bg-surface-100 rounded-xl p-6 border border-white/5 space-y-4">
+        <h1 className="text-2xl font-bold text-slate-900 mb-6">Registrar Pago</h1>
+        <form onSubmit={handleSubmit} className="bg-surface-100 rounded-xl p-6 border border-slate-100 space-y-4">
           <div>
-            <label className="block text-sm text-white/60 mb-1">Préstamo</label>
+            <label className="block text-sm text-slate-500 mb-1">PrÃ©stamo</label>
             <select value={form.loanId} onChange={e => handleLoanSelect(e.target.value)} required
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white">
-              <option value="">Seleccionar préstamo</option>
+              className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
+              <option value="">Seleccionar prÃ©stamo</option>
               {(loans || []).map((l: any) => (
                 <option key={l.id} value={l.id}>#{l.id} - {l.client?.firstName} {l.client?.lastName} - {formatCurrency(l.installmentAmount)}/mes</option>
               ))}
@@ -59,28 +59,28 @@ export default function Cobros() {
           </div>
           {selectedLoan && (
             <div className="bg-surface-400 rounded-lg p-3 text-sm">
-              <p className="text-white/60">Cliente: <span className="text-white">{selectedLoan.client?.firstName} {selectedLoan.client?.lastName}</span></p>
-              <p className="text-white/60">Cuota: <span className="text-white">{formatCurrency(selectedLoan.installmentAmount)}</span></p>
-              <p className="text-white/60">Total: <span className="text-white">{formatCurrency(selectedLoan.totalAmount)}</span></p>
+              <p className="text-slate-500">Cliente: <span className="text-slate-900">{selectedLoan.client?.firstName} {selectedLoan.client?.lastName}</span></p>
+              <p className="text-slate-500">Cuota: <span className="text-slate-900">{formatCurrency(selectedLoan.installmentAmount)}</span></p>
+              <p className="text-slate-500">Total: <span className="text-slate-900">{formatCurrency(selectedLoan.totalAmount)}</span></p>
             </div>
           )}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-white/60 mb-1">N° Cuota</label>
-              <input type="number" min="1" value={form.installment} onChange={e => setForm({ ...form, installment: Number(e.target.value) })} required className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+              <label className="block text-sm text-slate-500 mb-1">NÂ° Cuota</label>
+              <input type="number" min="1" value={form.installment} onChange={e => setForm({ ...form, installment: Number(e.target.value) })} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
             </div>
             <div>
-              <label className="block text-sm text-white/60 mb-1">Monto</label>
-              <input type="number" step="0.01" value={form.amount} onChange={e => setForm({ ...form, amount: Number(e.target.value) })} required className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+              <label className="block text-sm text-slate-500 mb-1">Monto</label>
+              <input type="number" step="0.01" value={form.amount} onChange={e => setForm({ ...form, amount: Number(e.target.value) })} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
             </div>
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Fecha de Pago</label>
-            <input type="date" value={form.paidAt} onChange={e => setForm({ ...form, paidAt: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Fecha de Pago</label>
+            <input type="date" value={form.paidAt} onChange={e => setForm({ ...form, paidAt: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-white/60 mb-1">Notas</label>
-            <input value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <label className="block text-sm text-slate-500 mb-1">Notas</label>
+            <input value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <button type="submit" className="w-full bg-secondary-500 hover:bg-secondary-600 text-black font-semibold py-3 rounded-lg flex items-center justify-center gap-2">
             <DollarSign size={18} /> Registrar Pago
@@ -89,11 +89,11 @@ export default function Cobros() {
       </div>
 
       <div>
-        <h1 className="text-2xl font-bold text-white mb-6">Pagos Recientes</h1>
-        <div className="bg-surface-100 rounded-xl border border-white/5 overflow-hidden">
+        <h1 className="text-2xl font-bold text-slate-900 mb-6">Pagos Recientes</h1>
+        <div className="bg-surface-100 rounded-xl border border-slate-100 overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-white/10 text-white/60 text-sm">
+              <tr className="border-b border-slate-200 text-slate-500 text-sm">
                 <th className="text-left py-3 px-4">Cliente</th>
                 <th className="text-right py-3 px-4">Cuota</th>
                 <th className="text-right py-3 px-4">Monto</th>
@@ -102,11 +102,11 @@ export default function Cobros() {
             </thead>
             <tbody>
               {(recentPayments || []).map((p: any) => (
-                <tr key={p.id} className="border-b border-white/5 hover:bg-white/5">
-                  <td className="py-3 px-4 text-white">{p.client?.firstName} {p.client?.lastName}</td>
-                  <td className="py-3 px-4 text-right text-white">#{p.installment}</td>
+                <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-100">
+                  <td className="py-3 px-4 text-slate-900">{p.client?.firstName} {p.client?.lastName}</td>
+                  <td className="py-3 px-4 text-right text-slate-900">#{p.installment}</td>
                   <td className="py-3 px-4 text-right text-secondary-500">{formatCurrency(p.amount)}</td>
-                  <td className="py-3 px-4 text-right text-white/60">{formatDate(p.paidAt)}</td>
+                  <td className="py-3 px-4 text-right text-slate-500">{formatDate(p.paidAt)}</td>
                 </tr>
               ))}
             </tbody>

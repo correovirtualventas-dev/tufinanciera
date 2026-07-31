@@ -9,7 +9,7 @@ import {
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard', roles: ['ADMIN'] },
   { to: '/clients', icon: Users, label: 'Clientes', roles: ['ADMIN'] },
-  { to: '/loans', icon: Handshake, label: 'Préstamos', roles: ['ADMIN'] },
+  { to: '/loans', icon: Handshake, label: 'PrÃ©stamos', roles: ['ADMIN'] },
   { to: '/payments', icon: DollarSign, label: 'Cobros', roles: ['ADMIN'] },
   { to: '/scoring', icon: ShieldCheck, label: 'Scoring', roles: ['ADMIN'] },
   { to: '/reports', icon: BarChart3, label: 'Reportes', roles: ['ADMIN'] },
@@ -19,7 +19,7 @@ const navItems = [
   { to: '/prospects', icon: Target, label: 'Prospectos', roles: ['ADMIN'] },
   { to: '/alerts', icon: Megaphone, label: 'Alertas', roles: ['ADMIN'] },
   { to: '/cotizador', icon: ScrollText, label: 'Cotizador', roles: ['ADMIN'] },
-  { to: '/settings', icon: Settings, label: 'Configuración', roles: ['ADMIN'] },
+  { to: '/settings', icon: Settings, label: 'ConfiguraciÃ³n', roles: ['ADMIN'] },
 ];
 
 export default function Sidebar() {
@@ -28,9 +28,9 @@ export default function Sidebar() {
   const filtered = navItems.filter((item) => item.roles.includes(role || ''));
 
   return (
-    <aside className="w-sidebar bg-surface-100 border-r border-white/10 flex flex-col h-full">
-      <div className="h-topbar flex items-center px-6 border-b border-white/10">
-        <h1 className="text-lg font-bold text-white">
+    <aside className="w-sidebar bg-surface-100 border-r border-slate-200 flex flex-col h-full">
+      <div className="h-topbar flex items-center px-6 border-b border-slate-200">
+        <h1 className="text-lg font-bold text-slate-900">
           Tu<span className="text-primary-500">Financiera</span>
         </h1>
       </div>
@@ -44,7 +44,7 @@ export default function Sidebar() {
               `flex items-center gap-3 px-6 py-3 text-sm transition-colors ${
                 isActive
                   ? 'bg-primary-500/10 text-primary-500 border-r-2 border-primary-500'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
               }`
             }
           >

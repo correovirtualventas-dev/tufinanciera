@@ -20,12 +20,12 @@ export default function PasswordInput({ value, onChange, placeholder, className,
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        className={`bg-surface-400 border border-white/10 rounded-lg text-white pr-10 focus:outline-none focus:border-primary-500 transition-colors ${className || 'w-full px-3 py-2'}`}
+        className={`bg-surface-400 border border-slate-200 rounded-lg text-slate-900 pr-10 focus:outline-none focus:border-primary-500 transition-colors ${className || 'w-full px-3 py-2'}`}
       />
       <button
         type="button"
         onClick={() => setShow(!show)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 transition-colors"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition-colors"
         tabIndex={-1}
       >
         {show ? <EyeOff size={18} /> : <Eye size={18} />}
