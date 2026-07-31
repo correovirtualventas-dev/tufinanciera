@@ -12,7 +12,7 @@ export default function Clients() {
   const [editing, setEditing] = useState<any>(null);
   const [form, setForm] = useState({
     firstName: '', lastName: '', dni: '', cuit: '', phone: '', email: '',
-    address: '', localidad: '', activity: '', income: 0, notes: '', avalName: '', referidoPor: '',
+    address: '', localidad: '', activity: '', income: '', notes: '', avalName: '', referidoPor: '',
   });
 
   const queryClient = useQueryClient();
@@ -51,7 +51,7 @@ export default function Clients() {
       firstName: client.firstName || '', lastName: client.lastName || '', dni: client.dni || '',
       cuit: client.cuit || '', phone: client.phone || '', email: client.email || '',
       address: client.address || '', localidad: client.localidad || '', activity: client.activity || '',
-      income: client.income || 0, notes: client.notes || '', avalName: client.avalName || '',
+      income: client.income ? Number(client.income).toLocaleString('es-AR') : '', notes: client.notes || '', avalName: client.avalName || '',
       referidoPor: client.referidoPor || '',
     });
     setModalOpen(true);
@@ -59,7 +59,10 @@ export default function Clients() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    createMutation.mutate(form);
+    const income = typeof form.income === 'string'
+      ? Number(form.income.replace(/\./g, '')) || 0
+      : form.income;
+    createMutation.mutate({ ...form, income });
   };
 
   const itemsPerPage = 10;
@@ -71,7 +74,7 @@ export default function Clients() {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-slate-900">Clientes</h1>
         <button
-          onClick={() => { setEditing(null); setForm({ firstName: '', lastName: '', dni: '', cuit: '', phone: '', email: '', address: '', localidad: '', activity: '', income: 0, notes: '', avalName: '', referidoPor: '' }); setModalOpen(true); }}
+          onClick={() => { setEditing(null); setForm({ firstName: '', lastName: '', dni: '', cuit: '', phone: '', email: '', address: '', localidad: '', activity: '', income: '', notes: '', avalName: '', referidoPor: '' }); setModalOpen(true); }}
           className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
         >
           <Plus size={18} /> Nuevo Cliente
@@ -203,7 +206,21 @@ export default function Clients() {
               </div>
               <div>
                 <label className="block text-sm text-slate-500 mb-1">Ingresos</label>
-                <input type="number" value={form.income} onChange={e => setForm({ ...form, income: Number(e.target.value) })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={form.income}
+                    onChange={e => {
+                      const digits = e.target.value.replace(/[^\d]/g, '');
+                      const num = digits ? parseInt(digits, 10) : 0;
+                      setForm({ ...form, income: num ? num.toLocaleString('es-AR') : '' });
+                    }}
+                    className="w-full bg-surface-400 border border-slate-200 rounded-lg pl-8 px-3 py-2 text-slate-900"
+                    placeholder="0"
+                  />
+                </div>
               </div>
               <div>
                 <label className="block text-sm text-slate-500 mb-1">Aval</label>
