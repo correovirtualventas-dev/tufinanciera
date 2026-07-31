@@ -134,7 +134,14 @@ export default function Configuracion() {
           <div className="space-y-4">
             {['initialCapital', 'alertDays', 'interestRate', 'maxInstallments', 'minAmount', 'maxAmount'].map(key => (
               <div key={key}>
-                <label className="block text-sm text-slate-500 mb-1 capitalize">{key.replace(/([A-Z])/g, ' $1')}</label>
+                <label className="block text-sm text-slate-500 mb-1">{{
+                  initialCapital: 'Capital Inicial',
+                  alertDays: 'Días de Alerta',
+                  interestRate: 'Tasa de Interés',
+                  maxInstallments: 'Máx. Cuotas',
+                  minAmount: 'Monto Mínimo',
+                  maxAmount: 'Monto Máximo',
+                }[key]}</label>
                 <input
                   type="text"
                   value={settings[key] ?? settingsData?.[key] ?? ''}
