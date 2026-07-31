@@ -4,6 +4,7 @@ import { getInvestors, createInvestor, updateInvestor, deleteInvestor, setInvest
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Plus, Search, Edit2, Trash2, Eye, Key } from 'lucide-react';
+import PasswordInput from '../components/PasswordInput';
 import { formatCurrency } from '../lib/format';
 
 export default function Investors() {
@@ -132,8 +133,7 @@ export default function Investors() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setPasswordModal({ open: false, id: 0, name: '' })}>
           <div className="bg-surface-100 rounded-2xl p-6 w-full max-w-sm" onClick={e => e.stopPropagation()}>
             <h2 className="text-xl font-bold text-white mb-2">Contraseña para {passwordModal.name}</h2>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Nueva contraseña"
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white mb-4" />
+            <PasswordInput value={password} onChange={e => setPassword(e.target.value)} placeholder="Nueva contraseña" className="w-full px-3 py-2 mb-4" />
             <div className="flex justify-end gap-3">
               <button onClick={() => setPasswordModal({ open: false, id: 0, name: '' })} className="px-4 py-2 text-white/60 hover:text-white">Cancelar</button>
               <button onClick={() => passwordMutation.mutate({ id: passwordModal.id, pwd: password })} className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg">Guardar</button>

@@ -4,6 +4,7 @@ import { useAuthStore } from '../store/authStore';
 import { login } from '../api/auth';
 import toast from 'react-hot-toast';
 import { LogIn } from 'lucide-react';
+import PasswordInput from '../components/PasswordInput';
 
 export default function Login() {
   const [nameOrEmail, setNameOrEmail] = useState('');
@@ -50,12 +51,11 @@ export default function Login() {
           </div>
           <div>
             <label className="block text-sm text-white/60 mb-1">Contraseña</label>
-            <input
-              type="password"
+            <PasswordInput
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary-500 transition-colors"
               placeholder="Ingresa tu contraseña"
+              className="w-full px-4 py-3"
               required
             />
           </div>

@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '../api/client';
 import toast from 'react-hot-toast';
 import { Plus, Edit2, Trash2, Save, Upload, Download } from 'lucide-react';
+import PasswordInput from '../components/PasswordInput';
 
 export default function Configuracion() {
   const [tab, setTab] = useState('users');
@@ -79,7 +80,7 @@ export default function Configuracion() {
             <form onSubmit={e => { e.preventDefault(); createUserMutation.mutate(userForm); }} className="grid grid-cols-2 gap-4">
               <input type="text" value={userForm.name} onChange={e => setUserForm({ ...userForm, name: e.target.value })} placeholder="Nombre" required className="bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
               <input type="email" value={userForm.email} onChange={e => setUserForm({ ...userForm, email: e.target.value })} placeholder="Email" required className="bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
-              <input type="password" value={userForm.password} onChange={e => setUserForm({ ...userForm, password: e.target.value })} placeholder={editingUser ? 'Nueva contraseña (opcional)' : 'Contraseña'} className="bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+              <PasswordInput value={userForm.password} onChange={e => setUserForm({ ...userForm, password: e.target.value })} placeholder={editingUser ? 'Nueva contraseña (opcional)' : 'Contraseña'} className="w-full px-3 py-2" />
               <select value={userForm.role} onChange={e => setUserForm({ ...userForm, role: e.target.value })} className="bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white">
                 <option value="ADMIN">Admin</option>
                 <option value="USER">Usuario</option>

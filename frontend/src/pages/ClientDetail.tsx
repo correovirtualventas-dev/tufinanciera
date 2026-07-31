@@ -5,6 +5,7 @@ import { getClient, setClientPassword, addDocument, deleteDocument, addGuarantee
 import { formatCurrency, formatDate } from '../lib/format';
 import toast from 'react-hot-toast';
 import { Plus, Trash2, FileText, Shield, Users, Key, Eye } from 'lucide-react';
+import PasswordInput from '../components/PasswordInput';
 
 export default function ClientDetail() {
   const { id } = useParams();
@@ -63,8 +64,7 @@ export default function ClientDetail() {
         <div className="bg-surface-100 rounded-xl p-4 border border-white/10 flex gap-3 items-end">
           <div className="flex-1">
             <label className="block text-sm text-white/60 mb-1">Nueva Contraseña</label>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)}
-              className="w-full bg-surface-400 border border-white/10 rounded-lg px-3 py-2 text-white" />
+            <PasswordInput value={password} onChange={e => setPassword(e.target.value)} className="w-full px-3 py-2" />
           </div>
           <button onClick={() => passwordMutation.mutate(password)}
             className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg">Guardar</button>
