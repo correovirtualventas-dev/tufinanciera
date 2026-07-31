@@ -24,7 +24,7 @@ export default function Dashboard() {
   }
 
   const chartData = metrics ? [
-    { name: 'Activos', value: metrics.activeLoans, fill: '#10b981' },
+    { name: 'Activos', value: metrics.activeLoans, fill: '#2563eb' },
     { name: 'Vencidos', value: metrics.overdueLoans, fill: '#ef4444' },
     { name: 'Cancelados', value: metrics.canceledLoans, fill: '#64748b' },
   ] : [];
