@@ -4,7 +4,7 @@ import apiClient from '../api/client';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Plus, Search, Edit2, Trash2, Eye } from 'lucide-react';
-import { formatCurrency, formatDate } from '../lib/format';
+import { formatCurrency, formatDate, prospectStatusLabel, prospectTemperatureLabel } from '../lib/format';
 
 export default function Prospectos() {
   const [search, setSearch] = useState('');
@@ -32,7 +32,7 @@ export default function Prospectos() {
       setModalOpen(false); setEditing(null);
       toast.success(editing ? 'Prospecto actualizado' : 'Prospecto creado');
     },
-    onError: (err: any) => toast.error(err.response?.data?.error || 'Error'),
+    onError: (err: any) => toast.error(err.response?.data?.error || 'Ha ocurrido un error'),
   });
 
   const deleteMutation = useMutation({
@@ -105,21 +105,21 @@ export default function Prospectos() {
                 <td className="py-3 px-4 text-slate-700">{p.dni || '-'}</td>
                 <td className="py-3 px-4 text-slate-700">{p.phone || '-'}</td>
                 <td className="py-3 px-4 text-center">
-                  <span className="px-2 py-1 rounded-full text-xs bg-tertiary-500/10 text-tertiary-500">{p.status}</span>
+                  <span className="px-2 py-1 rounded-full text-xs bg-tertiary-500/10 text-tertiary-500">{prospectStatusLabel(p.status)}</span>
                 </td>
                 <td className="py-3 px-4 text-center">
                   {p.temperature ? (
                     <span className={`px-2 py-1 rounded-full text-xs ${
                       p.temperature === 'HOT' ? 'bg-red-500/10 text-red-500' :
                       p.temperature === 'WARM' ? 'bg-amber/10 text-amber' : 'bg-tertiary-500/10 text-tertiary-500'
-                    }`}>{p.temperature}</span>
+                    }`}>{prospectTemperatureLabel(p.temperature)}</span>
                   ) : '-'}
                 </td>
                 <td className="py-3 px-4 text-center text-slate-700">{p.qualification || '-'}</td>
                 <td className="py-3 px-4 text-right">
                   <Link to={`/prospects/${p.id}`} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-tertiary-500 inline-block"><Eye size={16} /></Link>
                   <button onClick={() => handleEdit(p)} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-primary-500"><Edit2 size={16} /></button>
-                  <button onClick={() => { if (confirm('Â¿Eliminar?')) deleteMutation.mutate(p.id); }} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
+                  <button onClick={() => { if (confirm('¿Eliminar?')) deleteMutation.mutate(p.id); }} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
                 </td>
               </tr>
             ))}
@@ -142,7 +142,7 @@ export default function Prospectos() {
               </div>
               <div><label className="block text-sm text-slate-500 mb-1">DNI</label><input value={form.dni} onChange={e => setForm({ ...form, dni: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
               <div><label className="block text-sm text-slate-500 mb-1">Teléfono</label><input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
-              <div><label className="block text-sm text-slate-500 mb-1">Email</label><input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
+              <div><label className="block text-sm text-slate-500 mb-1">Correo electrónico</label><input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
               <div><label className="block text-sm text-slate-500 mb-1">Localidad</label><input value={form.localidad} onChange={e => setForm({ ...form, localidad: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
               <div><label className="block text-sm text-slate-500 mb-1">Actividad</label><input value={form.activity} onChange={e => setForm({ ...form, activity: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
               <div><label className="block text-sm text-slate-500 mb-1">Ingresos</label><input type="number" value={form.income} onChange={e => setForm({ ...form, income: Number(e.target.value) })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>

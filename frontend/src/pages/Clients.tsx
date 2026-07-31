@@ -29,7 +29,7 @@ export default function Clients() {
       setEditing(null);
       toast.success(editing ? 'Cliente actualizado' : 'Cliente creado');
     },
-    onError: (err: any) => toast.error(err.response?.data?.error || 'Error'),
+    onError: (err: any) => toast.error(err.response?.data?.error || 'Ha ocurrido un error'),
   });
 
   const deleteMutation = useMutation({
@@ -100,7 +100,7 @@ export default function Clients() {
                 <th className="text-left py-4 px-4">Nombre</th>
                 <th className="text-left py-4 px-4">DNI</th>
                 <th className="text-left py-4 px-4">Teléfono</th>
-                <th className="text-center py-4 px-4">Score</th>
+                <th className="text-center py-4 px-4">Puntaje</th>
                 <th className="text-center py-4 px-4">Estado</th>
                 <th className="text-right py-4 px-4">Acciones</th>
               </tr>
@@ -121,7 +121,7 @@ export default function Clients() {
                       client.score >= 400 ? 'bg-amber/10 text-amber' :
                       'bg-red-500/10 text-red-500'
                     }`}>
-                      {client.score || 'N/A'}
+                      {client.score || 'S/D'}
                     </span>
                   </td>
                   <td className="py-3 px-4 text-center">
@@ -142,7 +142,7 @@ export default function Clients() {
                       <button onClick={() => toggleMutation.mutate(client.id)} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-secondary-500">
                         {client.active ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}
                       </button>
-                      <button onClick={() => { if (confirm('Â¿Eliminar cliente?')) deleteMutation.mutate(client.id); }} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500">
+                      <button onClick={() => { if (confirm('¿Eliminar cliente?')) deleteMutation.mutate(client.id); }} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500">
                         <Trash2 size={16} />
                       </button>
                     </div>
@@ -189,7 +189,7 @@ export default function Clients() {
                 <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-slate-500 mb-1">Email</label>
+                <label className="block text-sm text-slate-500 mb-1">Correo electrónico</label>
                 <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div className="col-span-2">

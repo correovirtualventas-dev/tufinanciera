@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import apiClient from '../api/client';
-import { formatCurrency, formatDate } from '../lib/format';
+import { formatCurrency, formatDate, loanStatusLabel } from '../lib/format';
 import { AlertTriangle, Clock, DollarSign } from 'lucide-react';
 
 export default function Alertas() {
@@ -125,7 +125,7 @@ export default function Alertas() {
                   <td className="py-3 px-4 text-right text-red-500">{formatCurrency(item.pending)}</td>
                   <td className="py-3 px-4 text-center">
                     <span className={`px-2 py-1 rounded-full text-xs ${item.status === 'OVERDUE' ? 'bg-red-500/10 text-red-500' : 'bg-amber/10 text-amber'}`}>
-                      {item.status}
+                      {loanStatusLabel(item.status)}
                     </span>
                   </td>
                 </tr>

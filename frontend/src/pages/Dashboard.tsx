@@ -35,7 +35,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Panel de Control</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Clientes Activos" value={metrics?.totalClients || 0} icon={Users} color="primary" />
@@ -54,7 +54,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-          <h3 className="text-slate-900 font-semibold mb-4">Exchange</h3>
+          <h3 className="text-slate-900 font-semibold mb-4">Cambio de Divisas</h3>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between text-slate-500">
               <span>USD Comprados</span>

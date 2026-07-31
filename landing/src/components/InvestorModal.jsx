@@ -30,7 +30,7 @@ export default function InvestorModal({ onClose }) {
         body: JSON.stringify({ dni, password }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Error');
+      if (!res.ok) throw new Error(data.error || 'Error inesperado. Intenta de nuevo.');
       setToken(data.token);
       setInvestor(data.investor);
       loadSummary(data.token, data.investor.id);

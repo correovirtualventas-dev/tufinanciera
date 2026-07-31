@@ -20,7 +20,7 @@ export default function ProspectDetail() {
   const updateMutation = useMutation({
     mutationFn: (data: any) => apiClient.patch(`/prospects/${id}`, data),
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['prospect', id] }); toast.success('Prospecto actualizado'); },
-    onError: (err: any) => toast.error(err.response?.data?.error || 'Error'),
+    onError: (err: any) => toast.error(err.response?.data?.error || 'Ha ocurrido un error'),
   });
 
   if (isLoading) return <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary-500 mx-auto mt-20" />;
@@ -52,7 +52,7 @@ export default function ProspectDetail() {
             <input value={data.phone || ''} onChange={e => setForm({ ...data, phone: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">Email</label>
+            <label className="block text-sm text-slate-500 mb-1">Correo electrónico</label>
             <input value={data.email || ''} onChange={e => setForm({ ...data, email: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>

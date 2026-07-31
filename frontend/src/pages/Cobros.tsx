@@ -21,7 +21,7 @@ export default function Cobros() {
       toast.success('Pago registrado');
       setForm({ loanId: '', installment: 1, amount: 0, paidAt: new Date().toISOString().split('T')[0], notes: '' });
     },
-    onError: (err: any) => toast.error(err.response?.data?.error || 'Error'),
+    onError: (err: any) => toast.error(err.response?.data?.error || 'Ha ocurrido un error'),
   });
 
   const selectedLoan = (loans || []).find((l: any) => l.id === Number(form.loanId));
@@ -66,7 +66,7 @@ export default function Cobros() {
           )}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm text-slate-500 mb-1">NÂ° Cuota</label>
+              <label className="block text-sm text-slate-500 mb-1">N° Cuota</label>
               <input type="number" min="1" value={form.installment} onChange={e => setForm({ ...form, installment: Number(e.target.value) })} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
             </div>
             <div>

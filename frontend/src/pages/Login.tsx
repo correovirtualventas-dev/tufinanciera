@@ -39,7 +39,7 @@ export default function Login() {
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm text-slate-500 mb-1">Usuario o Email</label>
+            <label className="block text-sm text-slate-500 mb-1">Usuario o Correo electrónico</label>
             <input
               type="text"
               value={nameOrEmail}

@@ -24,12 +24,12 @@ export default function Scoring() {
 
   const simMutation = useMutation({
     mutationFn: () => simulateScore(simFactors),
-    onSuccess: (data) => toast.success(`Score simulado: ${data.score} - ${data.category.label}`),
+    onSuccess: (data) => toast.success(`Puntaje simulado: ${data.score} - ${data.category.label}`),
   });
 
   const recalcMutation = useMutation({
     mutationFn: (id: number) => recalculateScore(id),
-    onSuccess: (data) => toast.success(`Score recalculado: ${data.score} - ${data.category.label}`),
+    onSuccess: (data) => toast.success(`Puntaje recalculado: ${data.score} - ${data.category.label}`),
   });
 
   const { data: scoreDetails } = useQuery({
@@ -40,7 +40,7 @@ export default function Scoring() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Scoring y BCRA</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Puntaje y BCRA</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
@@ -58,14 +58,14 @@ export default function Scoring() {
               <p className="text-slate-900">CUIT: {bcraResult.cuit}</p>
               <p className="text-slate-700">Situación: {bcraResult.situacion}</p>
               <p className="text-slate-700">Riesgo: {bcraResult.riesgo}</p>
-              <p className="text-slate-900">Score BCRA: {bcraResult.score}</p>
+              <p className="text-slate-900">Puntaje BCRA: {bcraResult.score}</p>
               <p className="text-secondary-500">{bcraResult.recomendacion}</p>
             </div>
           )}
         </div>
 
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-          <h3 className="text-slate-900 font-semibold mb-4">Recálculo de Score</h3>
+          <h3 className="text-slate-900 font-semibold mb-4">Recálculo de Puntaje</h3>
           <div className="flex gap-3">
             <select value={clientId} onChange={e => setClientId(e.target.value)}
               className="flex-1 bg-surface-400 border border-slate-200 rounded-lg px-3 py-3 text-slate-900">
@@ -81,7 +81,7 @@ export default function Scoring() {
           </div>
           {scoreDetails && (
             <div className="mt-4 bg-surface-400 rounded-lg p-4">
-              <p className="text-slate-900">Score: {scoreDetails.score}</p>
+              <p className="text-slate-900">Puntaje: {scoreDetails.score}</p>
               <p className={`text-${scoreDetails.category.color}-500`}>{scoreDetails.category.label}</p>
             </div>
           )}
@@ -89,7 +89,7 @@ export default function Scoring() {
       </div>
 
       <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-        <h3 className="text-slate-900 font-semibold mb-4">Simulador de Scoring</h3>
+        <h3 className="text-slate-900 font-semibold mb-4">Simulador de Puntaje</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm text-slate-500 mb-1">Ingresos</label>

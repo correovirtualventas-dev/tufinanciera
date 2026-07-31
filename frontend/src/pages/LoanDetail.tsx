@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getLoan } from '../api/loans';
 import { getPaymentsByLoan } from '../api/payments';
-import { formatCurrency, formatDate } from '../lib/format';
+import { formatCurrency, formatDate, loanStatusLabel } from '../lib/format';
 import { generateFrenchAmortization } from '../lib/format';
 
 export default function LoanDetail() {
@@ -44,7 +44,7 @@ export default function LoanDetail() {
           <span className={`px-3 py-1 rounded-full text-sm ${
             loan.status === 'ACTIVE' ? 'bg-secondary-500/10 text-secondary-500' :
             loan.status === 'OVERDUE' ? 'bg-red-500/10 text-red-500' : 'bg-tertiary-500/10 text-tertiary-500'
-          }`}>{loan.status}</span>
+          }`}>{loanStatusLabel(loan.status)}</span>
         </div>
       </div>
 

@@ -34,7 +34,7 @@ export default function Exchange() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Exchange</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Cambio de Divisas</h1>
 
       {summary && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -22,7 +22,7 @@ export default function Services({ onClient, onInvestor, onSolicitar }) {
       ),
     },
     {
-      title: 'Exchange',
+      title: 'Cambio de Divisas',
       desc: 'Compra y venta de dólares al mejor tipo de cambio. Operaciones rápidas y seguras.',
       icon: 'currency_exchange',
       actions: (

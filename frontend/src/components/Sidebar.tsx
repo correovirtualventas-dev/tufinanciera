@@ -7,14 +7,14 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { to: '/', icon: LayoutDashboard, label: 'Dashboard', roles: ['ADMIN'] },
+  { to: '/', icon: LayoutDashboard, label: 'Panel de Control', roles: ['ADMIN'] },
   { to: '/clients', icon: Users, label: 'Clientes', roles: ['ADMIN'] },
   { to: '/loans', icon: Handshake, label: 'Préstamos', roles: ['ADMIN'] },
   { to: '/payments', icon: DollarSign, label: 'Cobros', roles: ['ADMIN'] },
-  { to: '/scoring', icon: ShieldCheck, label: 'Scoring', roles: ['ADMIN'] },
+  { to: '/scoring', icon: ShieldCheck, label: 'Puntaje', roles: ['ADMIN'] },
   { to: '/reports', icon: BarChart3, label: 'Reportes', roles: ['ADMIN'] },
   { to: '/accounting', icon: Receipt, label: 'Contabilidad', roles: ['ADMIN'] },
-  { to: '/exchange', icon: TrendingUp, label: 'Exchange', roles: ['ADMIN'] },
+  { to: '/exchange', icon: TrendingUp, label: 'Cambio de Divisas', roles: ['ADMIN'] },
   { to: '/investors', icon: PiggyBank, label: 'Inversores', roles: ['ADMIN'] },
   { to: '/prospects', icon: Target, label: 'Prospectos', roles: ['ADMIN'] },
   { to: '/alerts', icon: Megaphone, label: 'Alertas', roles: ['ADMIN'] },

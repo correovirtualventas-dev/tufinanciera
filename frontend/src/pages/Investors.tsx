@@ -87,7 +87,7 @@ export default function Investors() {
                     className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-primary-500"><Edit2 size={16} /></button>
                   <button onClick={() => setPasswordModal({ open: true, id: inv.id, name: inv.name })}
                     className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-amber"><Key size={16} /></button>
-                  <button onClick={() => { if (confirm('Â¿Eliminar inversor?')) deleteMutation.mutate(inv.id); }}
+                  <button onClick={() => { if (confirm('¿Eliminar inversor?')) deleteMutation.mutate(inv.id); }}
                     className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
                 </td>
               </tr>

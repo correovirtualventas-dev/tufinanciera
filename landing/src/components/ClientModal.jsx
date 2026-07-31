@@ -6,6 +6,19 @@ function formatCurrency(n) {
   return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 2 }).format(n);
 }
 
+function loanStatusLabel(status) {
+  const map = {
+    ACTIVE: 'Activo',
+    OVERDUE: 'Vencido',
+    CANCELED: 'Cancelado',
+    CANCELLED: 'Cancelado',
+    PENDING: 'Pendiente',
+    PAID: 'Pagado',
+    REJECTED: 'Rechazado',
+  };
+  return map[status] || status;
+}
+
 export default function ClientModal({ onClose }) {
   const [dni, setDni] = useState(sessionStorage.getItem('clientDni') || '');
   const [password, setPassword] = useState(sessionStorage.getItem('clientPassword') || '');
@@ -27,7 +40,7 @@ export default function ClientModal({ onClose }) {
         body: JSON.stringify({ dni, password }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Error');
+      if (!res.ok) throw new Error(data.error || 'Error inesperado. Intenta de nuevo.');
       setToken(data.token);
       setClient(data.client);
       sessionStorage.setItem('clientToken', data.token);
@@ -120,7 +133,7 @@ export default function ClientModal({ onClose }) {
               <div key={loan.id} className="bg-surface rounded-xl p-4">
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-semibold">Préstamo #{loan.id}</span>
-                  <span className={`text-xs px-2 py-1 rounded-full ${loan.status === 'ACTIVE' ? 'bg-secondary/10 text-secondary' : 'bg-red-400/10 text-red-400'}`}>{loan.status}</span>
+                  <span className={`text-xs px-2 py-1 rounded-full ${loan.status === 'ACTIVE' ? 'bg-secondary/10 text-secondary' : 'bg-red-400/10 text-red-400'}`}>{loanStatusLabel(loan.status)}</span>
                 </div>
                 <div className="grid grid-cols-3 gap-2 text-sm">
                   <div><span className="text-white/60">Monto</span><p className="font-bold">{formatCurrency(loan.amount)}</p></div>

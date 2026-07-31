@@ -5,7 +5,7 @@ import { getClients } from '../api/clients';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Plus, Search, FileText, Trash2, Download } from 'lucide-react';
-import { formatCurrency, formatDate } from '../lib/format';
+import { formatCurrency, formatDate, loanStatusLabel } from '../lib/format';
 import { calculateFrenchInstallment, generateFrenchAmortization } from '../lib/format';
 
 export default function Loans() {
@@ -27,7 +27,7 @@ export default function Loans() {
   const createMutation = useMutation({
     mutationFn: createLoan,
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['loans'] }); setModalOpen(false); toast.success('Préstamo creado'); },
-    onError: (err: any) => toast.error(err.response?.data?.error || 'Error'),
+    onError: (err: any) => toast.error(err.response?.data?.error || 'Ha ocurrido un error'),
   });
 
   const updateStatusMutation = useMutation({
@@ -120,7 +120,7 @@ export default function Loans() {
                     loan.status === 'ACTIVE' ? 'bg-secondary-500/10 text-secondary-500' :
                     loan.status === 'OVERDUE' ? 'bg-red-500/10 text-red-500' :
                     'bg-tertiary-500/10 text-tertiary-500'
-                  }`}>{loan.status}</span>
+                  }`}>{loanStatusLabel(loan.status)}</span>
                 </td>
                 <td className="py-3 px-4 text-center text-slate-500 text-sm">{formatDate(loan.startDate)}</td>
                 <td className="py-3 px-4 text-right">
@@ -129,9 +129,9 @@ export default function Loans() {
                     <button onClick={() => handleDownloadPdf(loan.id)} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-primary-500"><Download size={16} /></button>
                     <select value={loan.status} onChange={e => updateStatusMutation.mutate({ id: loan.id, status: e.target.value })}
                       className="bg-transparent text-slate-500 text-xs border border-slate-200 rounded px-2 py-1">
-                      <option value="ACTIVE">Active</option>
-                      <option value="OVERDUE">Overdue</option>
-                      <option value="CANCELED">Canceled</option>
+                      <option value="ACTIVE">Activo</option>
+                      <option value="OVERDUE">Vencido</option>
+                      <option value="CANCELED">Cancelado</option>
                     </select>
                   </div>
                 </td>

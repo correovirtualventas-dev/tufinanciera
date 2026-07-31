@@ -40,8 +40,8 @@ export default function Configuracion() {
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a'); a.href = url; a.download = `backup-${new Date().toISOString().split('T')[0]}.json`; a.click();
-      toast.success('Backup descargado');
-    } catch { toast.error('Error al hacer backup'); }
+      toast.success('Copia de seguridad descargada');
+    } catch { toast.error('Error al hacer la copia de seguridad'); }
   };
 
   const handleRestore = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,7 +58,7 @@ export default function Configuracion() {
   const tabs = [
     { key: 'users', label: 'Usuarios' },
     { key: 'settings', label: 'Configuración' },
-    { key: 'backup', label: 'Backup/Restore' },
+    { key: 'backup', label: 'Copia de Seguridad / Restaurar' },
   ];
 
   return (
@@ -79,10 +79,10 @@ export default function Configuracion() {
             <h3 className="text-slate-900 font-semibold mb-4">{editingUser ? 'Editar' : 'Nuevo'} Usuario</h3>
             <form onSubmit={e => { e.preventDefault(); createUserMutation.mutate(userForm); }} className="grid grid-cols-2 gap-4">
               <input type="text" value={userForm.name} onChange={e => setUserForm({ ...userForm, name: e.target.value })} placeholder="Nombre" required className="bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
-              <input type="email" value={userForm.email} onChange={e => setUserForm({ ...userForm, email: e.target.value })} placeholder="Email" required className="bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
+              <input type="email" value={userForm.email} onChange={e => setUserForm({ ...userForm, email: e.target.value })} placeholder="Correo electrónico" required className="bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               <PasswordInput value={userForm.password} onChange={e => setUserForm({ ...userForm, password: e.target.value })} placeholder={editingUser ? 'Nueva contraseña (opcional)' : 'Contraseña'} className="w-full px-3 py-2" />
               <select value={userForm.role} onChange={e => setUserForm({ ...userForm, role: e.target.value })} className="bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
-                <option value="ADMIN">Admin</option>
+                <option value="ADMIN">Administrador</option>
                 <option value="USER">Usuario</option>
               </select>
               <div className="col-span-2 flex gap-3">
@@ -97,7 +97,7 @@ export default function Configuracion() {
               <thead>
                 <tr className="border-b border-slate-200 text-slate-500 text-sm">
                   <th className="text-left py-3 px-4">Nombre</th>
-                  <th className="text-left py-3 px-4">Email</th>
+                  <th className="text-left py-3 px-4">Correo electrónico</th>
                   <th className="text-left py-3 px-4">Rol</th>
                   <th className="text-center py-3 px-4">Estado</th>
                   <th className="text-right py-3 px-4">Acciones</th>
@@ -161,17 +161,17 @@ export default function Configuracion() {
       {tab === 'backup' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-            <h3 className="text-slate-900 font-semibold mb-4">Backup</h3>
+            <h3 className="text-slate-900 font-semibold mb-4">Copia de Seguridad</h3>
             <p className="text-slate-500 mb-4">Descargar copia de seguridad de todos los datos</p>
             <button onClick={handleBackup} className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg flex items-center gap-2">
-              <Download size={18} /> Descargar Backup
+              <Download size={18} /> Descargar Copia de Seguridad
             </button>
           </div>
           <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
             <h3 className="text-slate-900 font-semibold mb-4">Restaurar</h3>
             <p className="text-slate-500 mb-4">Seleccionar archivo JSON de backup para restaurar</p>
             <label className="bg-tertiary-500 hover:bg-tertiary-600 text-white px-6 py-3 rounded-lg flex items-center gap-2 cursor-pointer w-fit">
-              <Upload size={18} /> Restaurar Backup
+              <Upload size={18} /> Restaurar Copia de Seguridad
               <input type="file" accept=".json" onChange={handleRestore} className="hidden" />
             </label>
           </div>

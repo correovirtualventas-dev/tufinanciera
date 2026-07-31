@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getClient, setClientPassword, addGuarantee, deleteGuarantee, addRelationship, deleteRelationship } from '../api/clients';
-import { formatCurrency, formatDate } from '../lib/format';
+import { formatCurrency, formatDate, loanStatusLabel } from '../lib/format';
 import toast from 'react-hot-toast';
 import { Plus, Trash2, FileText, Shield, Users, Key, Eye } from 'lucide-react';
 import PasswordInput from '../components/PasswordInput';
@@ -23,7 +23,7 @@ export default function ClientDetail() {
   const passwordMutation = useMutation({
     mutationFn: (pwd: string) => setClientPassword(Number(id), pwd),
     onSuccess: () => { toast.success('Contraseña actualizada'); setShowPasswordForm(false); setPassword(''); },
-    onError: (err: any) => toast.error(err.response?.data?.error || 'Error'),
+    onError: (err: any) => toast.error(err.response?.data?.error || 'Ha ocurrido un error'),
   });
 
   if (isLoading) return <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary-500 mx-auto mt-20" />;
@@ -50,7 +50,7 @@ export default function ClientDetail() {
               client.score >= 600 ? 'bg-secondary-500/10 text-secondary-500' :
               client.score >= 400 ? 'bg-amber/10 text-amber' : 'bg-red-500/10 text-red-500'
             }`}>
-              Score: {client.score}
+              Puntaje: {client.score}
             </span>
           )}
           <button onClick={() => setShowPasswordForm(!showPasswordForm)}
@@ -89,7 +89,7 @@ export default function ClientDetail() {
             <h3 className="text-slate-900 font-semibold">Información Personal</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div><span className="text-slate-500">Teléfono:</span> <span className="text-slate-900">{client.phone || '-'}</span></div>
-              <div><span className="text-slate-500">Email:</span> <span className="text-slate-900">{client.email || '-'}</span></div>
+              <div><span className="text-slate-500">Correo:</span> <span className="text-slate-900">{client.email || '-'}</span></div>
               <div><span className="text-slate-500">Dirección:</span> <span className="text-slate-900">{client.address || '-'}</span></div>
               <div><span className="text-slate-500">Localidad:</span> <span className="text-slate-900">{client.localidad || '-'}</span></div>
               <div><span className="text-slate-500">Actividad:</span> <span className="text-slate-900">{client.activity || '-'}</span></div>
@@ -134,7 +134,7 @@ export default function ClientDetail() {
                       loan.status === 'ACTIVE' ? 'bg-secondary-500/10 text-secondary-500' :
                       loan.status === 'OVERDUE' ? 'bg-red-500/10 text-red-500' :
                       'bg-tertiary-500/10 text-tertiary-500'
-                    }`}>{loan.status}</span>
+                    }`}>{loanStatusLabel(loan.status)}</span>
                   </td>
                   <td className="py-3 px-4">
                     <Link to={`/loans/${loan.id}`} className="text-tertiary-500 hover:text-tertiary-400 text-sm">Ver detalle</Link>
@@ -166,6 +166,16 @@ function SubList({ title, items, fields, onAdd, onDelete }: {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<any>({});
 
+  const FIELD_LABELS: Record<string, string> = {
+    type: 'Tipo',
+    detail: 'Detalle',
+    value: 'Valor',
+    name: 'Nombre',
+    relation: 'Relación',
+    phone: 'Teléfono',
+  };
+  const fieldLabel = (f: string) => FIELD_LABELS[f] || f;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await onAdd(form);
@@ -185,7 +195,7 @@ function SubList({ title, items, fields, onAdd, onDelete }: {
         <form onSubmit={handleSubmit} className="bg-surface-100 rounded-xl p-4 border border-slate-200 grid grid-cols-4 gap-3">
           {fields.map(f => (
             <div key={f}>
-              <label className="block text-xs text-slate-500 mb-1 capitalize">{f}</label>
+              <label className="block text-xs text-slate-500 mb-1">{fieldLabel(f)}</label>
               <input value={form[f] || ''} onChange={e => setForm({ ...form, [f]: e.target.value })}
                 className="w-full bg-surface-400 border border-slate-200 rounded px-3 py-2 text-slate-900 text-sm" />
             </div>
@@ -199,7 +209,7 @@ function SubList({ title, items, fields, onAdd, onDelete }: {
         <table className="w-full">
           <thead>
             <tr className="border-b border-slate-200 text-slate-500 text-sm">
-              {fields.map(f => <th key={f} className="text-left py-3 px-4 capitalize">{f}</th>)}
+              {fields.map(f => <th key={f} className="text-left py-3 px-4">{fieldLabel(f)}</th>)}
               <th className="text-right py-3 px-4">Acciones</th>
             </tr>
           </thead>
@@ -208,7 +218,7 @@ function SubList({ title, items, fields, onAdd, onDelete }: {
               <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-100">
                 {fields.map(f => <td key={f} className="py-3 px-4 text-slate-900">{item[f] ?? '-'}</td>)}
                 <td className="py-3 px-4 text-right">
-                  <button onClick={() => { if (confirm('Â¿Eliminar?')) onDelete(item.id); }}
+                  <button onClick={() => { if (confirm('¿Eliminar?')) onDelete(item.id); }}
                     className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500">
                     <Trash2 size={16} />
                   </button>
