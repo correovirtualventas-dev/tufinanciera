@@ -14,7 +14,7 @@ export const clientsService = {
     query = query.order('created_at', { ascending: false });
     const { data, error } = await query;
     if (error) throw error;
-    const clients = (data || []).map((r: any) => ({
+    return (data || []).map((r: any) => ({
       id: r.id,
       firstName: r.first_name,
       lastName: r.last_name,
@@ -34,18 +34,6 @@ export const clientsService = {
       createdAt: r.created_at,
       updatedAt: r.updated_at,
     }));
-    if (clients.length > 0) {
-      const { data: docs } = await supabase
-        .from('client_documents')
-        .select('client_id, type, url')
-        .in('client_id', clients.map((c: any) => c.id));
-      const dniFrontMap: Record<number, string> = {};
-      (docs || []).forEach((d: any) => {
-        if (d.type === 'DNI Frente' && !dniFrontMap[d.client_id]) dniFrontMap[d.client_id] = d.url;
-      });
-      clients.forEach((c: any) => { c.dniFrontUrl = dniFrontMap[c.id] || null; });
-    }
-    return clients;
   },
 
   async getById(id: number) {

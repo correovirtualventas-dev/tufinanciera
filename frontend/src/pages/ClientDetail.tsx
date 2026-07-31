@@ -40,9 +40,17 @@ export default function ClientDetail() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">{client.firstName} {client.lastName}</h1>
-          <p className="text-slate-500">DNI: {client.dni} {client.cuit ? `| CUIT: ${client.cuit}` : ''}</p>
+        <div className="flex items-center gap-4">
+          {(() => {
+            const dniFront = (client.documents || []).find((d: any) => d.type === 'DNI Frente');
+            return dniFront ? (
+              <img src={dniFront.url} alt="DNI frente" className="w-16 h-16 rounded-xl object-cover border border-slate-200" />
+            ) : null;
+          })()}
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">{client.firstName} {client.lastName}</h1>
+            <p className="text-slate-500">DNI: {client.dni} {client.cuit ? `| CUIT: ${client.cuit}` : ''}</p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           {client.score && (
