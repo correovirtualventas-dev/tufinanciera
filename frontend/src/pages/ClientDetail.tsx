@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getClient, setClientPassword, addDocument, deleteDocument, addGuarantee, deleteGuarantee, addRelationship, deleteRelationship } from '../api/clients';
+import { getClient, setClientPassword, addGuarantee, deleteGuarantee, addRelationship, deleteRelationship } from '../api/clients';
 import { formatCurrency, formatDate } from '../lib/format';
 import toast from 'react-hot-toast';
 import { Plus, Trash2, FileText, Shield, Users, Key, Eye } from 'lucide-react';
 import PasswordInput from '../components/PasswordInput';
+import DocumentsSection from '../components/DocumentsSection';
 
 export default function ClientDetail() {
   const { id } = useParams();
@@ -148,7 +149,7 @@ export default function ClientDetail() {
         </div>
       )}
 
-      {tab === 'documents' && <SubList title="Documentos" items={client.documents} fields={['type', 'name']} onAdd={(data: any) => addDocument(Number(id), data).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} onDelete={(itemId: number) => deleteDocument(Number(id), itemId).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} />}
+      {tab === 'documents' && <DocumentsSection clientId={Number(id)} documents={client.documents} />}
       {tab === 'guarantees' && <SubList title="Garantías" items={client.guarantees} fields={['type', 'detail', 'value']} onAdd={(data: any) => addGuarantee(Number(id), data).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} onDelete={(itemId: number) => deleteGuarantee(Number(id), itemId).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} />}
       {tab === 'relationships' && <SubList title="Relaciones" items={client.relationships} fields={['name', 'relation', 'phone']} onAdd={(data: any) => addRelationship(Number(id), data).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} onDelete={(itemId: number) => deleteRelationship(Number(id), itemId).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} />}
     </div>
