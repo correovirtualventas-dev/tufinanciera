@@ -16,12 +16,12 @@ export default function Cotizador() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100 space-y-6">
           <div>
-            <label className="block text-sm text-slate-500 mb-2">Monto: ${amount.toLocaleString('es-AR')}</label>
+            <label className="block text-sm text-slate-500 mb-2">Monto: {formatCurrency(amount)}</label>
             <input type="range" min={10000} max={1000000} step={5000} value={amount}
               onChange={e => setAmount(Number(e.target.value))}
               className="w-full accent-primary-500" />
             <div className="flex justify-between text-xs text-slate-400 mt-1">
-              <span>$10,000</span><span>$1,000,000</span>
+              <span>{formatCurrency(10000)}</span><span>{formatCurrency(1000000)}</span>
             </div>
           </div>
 
