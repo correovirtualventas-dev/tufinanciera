@@ -14,12 +14,12 @@ export default function Exchange() {
 
   const createMutation = useMutation({
     mutationFn: createExchangeOperation,
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['exchange'] }); queryClient.invalidateQueries({ queryKey: ['exchange-summary'] }); toast.success('OperaciÃ³n creada'); setForm({ type: 'BUY', amountARS: 0, amountUSD: 0, rate: 1400, clientName: '', notes: '' }); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['exchange'] }); queryClient.invalidateQueries({ queryKey: ['exchange-summary'] }); toast.success('Operación creada'); setForm({ type: 'BUY', amountARS: 0, amountUSD: 0, rate: 1400, clientName: '', notes: '' }); },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteExchangeOperation,
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['exchange'] }); queryClient.invalidateQueries({ queryKey: ['exchange-summary'] }); toast.success('OperaciÃ³n eliminada'); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['exchange'] }); queryClient.invalidateQueries({ queryKey: ['exchange-summary'] }); toast.success('Operación eliminada'); },
   });
 
   const updateAmounts = (type: string, field: string, value: number) => {
@@ -59,7 +59,7 @@ export default function Exchange() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-          <h3 className="text-slate-900 font-semibold mb-4">Nueva OperaciÃ³n</h3>
+          <h3 className="text-slate-900 font-semibold mb-4">Nueva Operación</h3>
           <form onSubmit={e => { e.preventDefault(); createMutation.mutate(form); }} className="space-y-4">
             <div className="flex gap-3">
               <button type="button" onClick={() => setForm({ ...form, type: 'BUY' })}
@@ -93,7 +93,7 @@ export default function Exchange() {
                 className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
             </div>
             <button type="submit" className="w-full bg-primary-500 hover:bg-primary-600 text-white py-3 rounded-lg flex items-center justify-center gap-2">
-              <TrendingUp size={18} /> Crear OperaciÃ³n
+              <TrendingUp size={18} /> Crear Operación
             </button>
           </form>
         </div>
@@ -110,7 +110,7 @@ export default function Exchange() {
                   <th className="text-right py-3 px-4">ARS</th>
                   <th className="text-right py-3 px-4">USD</th>
                   <th className="text-right py-3 px-4">Cambio</th>
-                  <th className="text-right py-3 px-4">AcciÃ³n</th>
+                  <th className="text-right py-3 px-4">Acción</th>
                 </tr>
               </thead>
               <tbody>

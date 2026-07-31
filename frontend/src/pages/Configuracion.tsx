@@ -31,7 +31,7 @@ export default function Configuracion() {
     mutationFn: (data: Record<string, string>) => Promise.all(
       Object.entries(data).map(([key, value]) => apiClient.post(`/admin/settings/${key}`, { value }))
     ),
-    onSuccess: () => { toast.success('ConfiguraciÃ³n guardada'); queryClient.invalidateQueries({ queryKey: ['settings'] }); },
+    onSuccess: () => { toast.success('Configuración guardada'); queryClient.invalidateQueries({ queryKey: ['settings'] }); },
   });
 
   const handleBackup = async () => {
@@ -57,13 +57,13 @@ export default function Configuracion() {
 
   const tabs = [
     { key: 'users', label: 'Usuarios' },
-    { key: 'settings', label: 'ConfiguraciÃ³n' },
+    { key: 'settings', label: 'Configuración' },
     { key: 'backup', label: 'Backup/Restore' },
   ];
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">ConfiguraciÃ³n</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Configuración</h1>
 
       <div className="flex gap-1 bg-surface-100 rounded-xl p-1 border border-slate-200">
         {tabs.map(t => (
@@ -80,7 +80,7 @@ export default function Configuracion() {
             <form onSubmit={e => { e.preventDefault(); createUserMutation.mutate(userForm); }} className="grid grid-cols-2 gap-4">
               <input type="text" value={userForm.name} onChange={e => setUserForm({ ...userForm, name: e.target.value })} placeholder="Nombre" required className="bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               <input type="email" value={userForm.email} onChange={e => setUserForm({ ...userForm, email: e.target.value })} placeholder="Email" required className="bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
-              <PasswordInput value={userForm.password} onChange={e => setUserForm({ ...userForm, password: e.target.value })} placeholder={editingUser ? 'Nueva contraseÃ±a (opcional)' : 'ContraseÃ±a'} className="w-full px-3 py-2" />
+              <PasswordInput value={userForm.password} onChange={e => setUserForm({ ...userForm, password: e.target.value })} placeholder={editingUser ? 'Nueva contraseña (opcional)' : 'Contraseña'} className="w-full px-3 py-2" />
               <select value={userForm.role} onChange={e => setUserForm({ ...userForm, role: e.target.value })} className="bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
                 <option value="ADMIN">Admin</option>
                 <option value="USER">Usuario</option>
@@ -130,7 +130,7 @@ export default function Configuracion() {
 
       {tab === 'settings' && (
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-          <h3 className="text-slate-900 font-semibold mb-4">ConfiguraciÃ³n del Sistema</h3>
+          <h3 className="text-slate-900 font-semibold mb-4">Configuración del Sistema</h3>
           <div className="space-y-4">
             {['initialCapital', 'alertDays', 'interestRate', 'maxInstallments', 'minAmount', 'maxAmount'].map(key => (
               <div key={key}>
@@ -145,7 +145,7 @@ export default function Configuracion() {
             ))}
             <button onClick={() => saveSettingsMutation.mutate(settings)}
               className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg">
-              Guardar ConfiguraciÃ³n
+              Guardar Configuración
             </button>
           </div>
         </div>

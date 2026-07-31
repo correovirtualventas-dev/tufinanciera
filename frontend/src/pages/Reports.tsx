@@ -4,8 +4,8 @@ import { FileText, Download } from 'lucide-react';
 
 const reports = [
   { label: 'Clientes', path: '/reports/clients' },
-  { label: 'PrÃ©stamos Activos', path: '/reports/loans/active' },
-  { label: 'PrÃ©stamos Vencidos', path: '/reports/loans/overdue' },
+  { label: 'Préstamos Activos', path: '/reports/loans/active' },
+  { label: 'Préstamos Vencidos', path: '/reports/loans/overdue' },
   { label: 'Pagos', path: '/reports/payments' },
   { label: 'Dashboard', path: '/reports/dashboard' },
   { label: 'Exchange', path: '/reports/exchange' },

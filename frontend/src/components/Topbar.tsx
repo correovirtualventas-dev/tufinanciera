@@ -13,7 +13,7 @@ export default function Topbar() {
 
   return (
     <header className="h-topbar bg-surface-100 border-b border-slate-200 flex items-center justify-between px-6">
-      <div className="text-slate-500 text-sm">Panel de AdministraciÃ³n</div>
+      <div className="text-slate-500 text-sm">Panel de Administración</div>
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 text-slate-700">
           <User size={18} />

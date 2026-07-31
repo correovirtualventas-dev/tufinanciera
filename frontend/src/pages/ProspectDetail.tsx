@@ -48,7 +48,7 @@ export default function ProspectDetail() {
             <input value={data.dni || ''} onChange={e => setForm({ ...data, dni: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">TelÃ©fono</label>
+            <label className="block text-sm text-slate-500 mb-1">Teléfono</label>
             <input value={data.phone || ''} onChange={e => setForm({ ...data, phone: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
@@ -91,11 +91,11 @@ export default function ProspectDetail() {
               <option value="">-</option>
               <option value="HOT">Caliente</option>
               <option value="WARM">Tibio</option>
-              <option value="COLD">FrÃ­o</option>
+              <option value="COLD">Frío</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">CalificaciÃ³n</label>
+            <label className="block text-sm text-slate-500 mb-1">Calificación</label>
             <select value={data.qualification || ''} onChange={e => setForm({ ...data, qualification: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
               <option value="">-</option>
               <option value="A">A</option>

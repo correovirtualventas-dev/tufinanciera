@@ -11,7 +11,7 @@ export default function Cotizador() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Cotizador de PrÃ©stamos</h1>
+      <h1 className="text-2xl font-bold text-slate-900">Cotizador de Préstamos</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100 space-y-6">
@@ -58,14 +58,14 @@ export default function Cotizador() {
         </div>
 
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-          <h3 className="text-slate-900 font-semibold mb-4">Tabla de AmortizaciÃ³n</h3>
+          <h3 className="text-slate-900 font-semibold mb-4">Tabla de Amortización</h3>
           <div className="max-h-96 overflow-y-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-slate-500 border-b border-slate-200">
                   <th className="text-left py-2">#</th>
                   <th className="text-right py-2">Capital</th>
-                  <th className="text-right py-2">InterÃ©s</th>
+                  <th className="text-right py-2">Interés</th>
                   <th className="text-right py-2">Saldo</th>
                 </tr>
               </thead>

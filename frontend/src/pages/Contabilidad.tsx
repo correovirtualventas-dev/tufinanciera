@@ -22,7 +22,7 @@ export default function Contabilidad() {
 
   const categoryMutation = useMutation({
     mutationFn: (name: string) => createExpenseCategory(name),
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['expense-categories'] }); setCategoryName(''); toast.success('CategorÃ­a creada'); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['expense-categories'] }); setCategoryName(''); toast.success('Categoría creada'); },
   });
 
   const deleteCatMutation = useMutation({
@@ -34,7 +34,7 @@ export default function Contabilidad() {
     { key: 'resumen', label: 'Resumen' },
     { key: 'movimientos', label: 'Movimientos' },
     { key: 'gastos', label: 'Gastos' },
-    { key: 'categorias', label: 'CategorÃ­as' },
+    { key: 'categorias', label: 'Categorías' },
   ];
 
   return (
@@ -86,7 +86,7 @@ export default function Contabilidad() {
               <tr className="border-b border-slate-200 text-slate-500 text-sm">
                 <th className="text-left py-3 px-4">Fecha</th>
                 <th className="text-left py-3 px-4">Tipo</th>
-                <th className="text-left py-3 px-4">DescripciÃ³n</th>
+                <th className="text-left py-3 px-4">Descripción</th>
                 <th className="text-right py-3 px-4">Monto</th>
               </tr>
             </thead>
@@ -117,10 +117,10 @@ export default function Contabilidad() {
             <form onSubmit={e => { e.preventDefault(); expenseMutation.mutate({ ...expenseForm, categoryId: Number(expenseForm.categoryId) }); }} className="space-y-4">
               <select value={expenseForm.categoryId} onChange={e => setExpenseForm({ ...expenseForm, categoryId: e.target.value })} required
                 className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
-                <option value="">CategorÃ­a</option>
+                <option value="">Categoría</option>
                 {(categories || []).map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
-              <input type="text" value={expenseForm.description} onChange={e => setExpenseForm({ ...expenseForm, description: e.target.value })} placeholder="DescripciÃ³n" required
+              <input type="text" value={expenseForm.description} onChange={e => setExpenseForm({ ...expenseForm, description: e.target.value })} placeholder="Descripción" required
                 className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               <input type="number" step="0.01" value={expenseForm.amount} onChange={e => setExpenseForm({ ...expenseForm, amount: Number(e.target.value) })} placeholder="Monto" required
                 className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
@@ -135,7 +135,7 @@ export default function Contabilidad() {
       {tab === 'categorias' && (
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
           <div className="flex gap-3 mb-4">
-            <input type="text" value={categoryName} onChange={e => setCategoryName(e.target.value)} placeholder="Nueva categorÃ­a..."
+            <input type="text" value={categoryName} onChange={e => setCategoryName(e.target.value)} placeholder="Nueva categoría..."
               className="flex-1 bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
             <button onClick={() => categoryName && categoryMutation.mutate(categoryName)}
               className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
@@ -157,9 +157,9 @@ export default function Contabilidad() {
 
       {tab === 'resumen' && summary && (
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-          <h3 className="text-slate-900 font-semibold mb-4">ConfiguraciÃ³n de Capital</h3>
+          <h3 className="text-slate-900 font-semibold mb-4">Configuración de Capital</h3>
           <p className="text-slate-500">Capital inicial registrado: <span className="text-slate-900 font-bold">{formatCurrency(summary.initialCapital)}</span></p>
-          <p className="text-slate-500 mt-2">Puedes modificar el capital inicial desde <strong>ConfiguraciÃ³n</strong>.</p>
+          <p className="text-slate-500 mt-2">Puedes modificar el capital inicial desde <strong>Configuración</strong>.</p>
         </div>
       )}
     </div>

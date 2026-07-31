@@ -26,7 +26,7 @@ export default function Loans() {
 
   const createMutation = useMutation({
     mutationFn: createLoan,
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['loans'] }); setModalOpen(false); toast.success('PrÃ©stamo creado'); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['loans'] }); setModalOpen(false); toast.success('Préstamo creado'); },
     onError: (err: any) => toast.error(err.response?.data?.error || 'Error'),
   });
 
@@ -37,7 +37,7 @@ export default function Loans() {
 
   const deleteMutation = useMutation({
     mutationFn: deleteLoan,
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['loans'] }); toast.success('PrÃ©stamo eliminado'); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['loans'] }); toast.success('Préstamo eliminado'); },
   });
 
   const updateAmort = () => {
@@ -65,10 +65,10 @@ export default function Loans() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-slate-900">PrÃ©stamos</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Préstamos</h1>
         <button onClick={() => { setForm({ clientId: '', amount: 0, interestRate: 0, installments: 1, startDate: new Date().toISOString().split('T')[0], notes: '' }); setAmortTable([]); setModalOpen(true); }}
           className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
-          <Plus size={18} /> Nuevo PrÃ©stamo
+          <Plus size={18} /> Nuevo Préstamo
         </button>
       </div>
 
@@ -144,7 +144,7 @@ export default function Loans() {
       {modalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setModalOpen(false)}>
           <div className="bg-surface-100 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <h2 className="text-xl font-bold text-slate-900 mb-4">Nuevo PrÃ©stamo</h2>
+            <h2 className="text-xl font-bold text-slate-900 mb-4">Nuevo Préstamo</h2>
             <form onSubmit={handleCreate} className="grid grid-cols-2 gap-4">
               <div className="col-span-2">
                 <label className="block text-sm text-slate-500 mb-1">Cliente</label>
@@ -181,7 +181,7 @@ export default function Loans() {
                   <p className="text-sm text-slate-500 mb-2">Vista previa: Cuota {formatCurrency(calculateFrenchInstallment(form.amount, form.interestRate, form.installments))} - Total {formatCurrency(calculateFrenchInstallment(form.amount, form.interestRate, form.installments) * form.installments)}</p>
                   <div className="max-h-40 overflow-y-auto text-xs">
                     <table className="w-full">
-                      <thead><tr className="text-slate-500"><th className="text-left">#</th><th className="text-right">Capital</th><th className="text-right">InterÃ©s</th><th className="text-right">Saldo</th></tr></thead>
+                      <thead><tr className="text-slate-500"><th className="text-left">#</th><th className="text-right">Capital</th><th className="text-right">Interés</th><th className="text-right">Saldo</th></tr></thead>
                       <tbody>
                         {amortTable.map((row: any) => (
                           <tr key={row.installment} className="text-slate-700">
@@ -196,7 +196,7 @@ export default function Loans() {
               )}
               <div className="col-span-2 flex justify-end gap-3 mt-4">
                 <button type="button" onClick={() => setModalOpen(false)} className="px-4 py-2 text-slate-500 hover:text-slate-900">Cancelar</button>
-                <button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg">Crear PrÃ©stamo</button>
+                <button type="submit" className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg">Crear Préstamo</button>
               </div>
             </form>
           </div>

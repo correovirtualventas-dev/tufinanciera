@@ -21,7 +21,7 @@ export default function ClientDetail() {
 
   const passwordMutation = useMutation({
     mutationFn: (pwd: string) => setClientPassword(Number(id), pwd),
-    onSuccess: () => { toast.success('ContraseÃ±a actualizada'); setShowPasswordForm(false); setPassword(''); },
+    onSuccess: () => { toast.success('Contraseña actualizada'); setShowPasswordForm(false); setPassword(''); },
     onError: (err: any) => toast.error(err.response?.data?.error || 'Error'),
   });
 
@@ -30,9 +30,9 @@ export default function ClientDetail() {
 
   const tabs = [
     { key: 'profile', label: 'Perfil', icon: FileText },
-    { key: 'loans', label: 'PrÃ©stamos', icon: Eye },
+    { key: 'loans', label: 'Préstamos', icon: Eye },
     { key: 'documents', label: 'Documentos', icon: FileText },
-    { key: 'guarantees', label: 'GarantÃ­as', icon: Shield },
+    { key: 'guarantees', label: 'Garantías', icon: Shield },
     { key: 'relationships', label: 'Relaciones', icon: Users },
   ];
 
@@ -55,7 +55,7 @@ export default function ClientDetail() {
           <button onClick={() => setShowPasswordForm(!showPasswordForm)}
             className="flex items-center gap-2 px-4 py-2 bg-surface-100 border border-slate-200 rounded-lg text-slate-700 hover:text-slate-900"
           >
-            <Key size={16} /> {client.password ? 'Cambiar ContraseÃ±a' : 'Asignar ContraseÃ±a'}
+            <Key size={16} /> {client.password ? 'Cambiar Contraseña' : 'Asignar Contraseña'}
           </button>
         </div>
       </div>
@@ -63,7 +63,7 @@ export default function ClientDetail() {
       {showPasswordForm && (
         <div className="bg-surface-100 rounded-xl p-4 border border-slate-200 flex gap-3 items-end">
           <div className="flex-1">
-            <label className="block text-sm text-slate-500 mb-1">Nueva ContraseÃ±a</label>
+            <label className="block text-sm text-slate-500 mb-1">Nueva Contraseña</label>
             <PasswordInput value={password} onChange={e => setPassword(e.target.value)} className="w-full px-3 py-2" />
           </div>
           <button onClick={() => passwordMutation.mutate(password)}
@@ -85,18 +85,18 @@ export default function ClientDetail() {
       {tab === 'profile' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-surface-100 rounded-xl p-6 border border-slate-100 space-y-4">
-            <h3 className="text-slate-900 font-semibold">InformaciÃ³n Personal</h3>
+            <h3 className="text-slate-900 font-semibold">Información Personal</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
-              <div><span className="text-slate-500">TelÃ©fono:</span> <span className="text-slate-900">{client.phone || '-'}</span></div>
+              <div><span className="text-slate-500">Teléfono:</span> <span className="text-slate-900">{client.phone || '-'}</span></div>
               <div><span className="text-slate-500">Email:</span> <span className="text-slate-900">{client.email || '-'}</span></div>
-              <div><span className="text-slate-500">DirecciÃ³n:</span> <span className="text-slate-900">{client.address || '-'}</span></div>
+              <div><span className="text-slate-500">Dirección:</span> <span className="text-slate-900">{client.address || '-'}</span></div>
               <div><span className="text-slate-500">Localidad:</span> <span className="text-slate-900">{client.localidad || '-'}</span></div>
               <div><span className="text-slate-500">Actividad:</span> <span className="text-slate-900">{client.activity || '-'}</span></div>
               <div><span className="text-slate-500">Ingresos:</span> <span className="text-slate-900">{client.income ? formatCurrency(client.income) : '-'}</span></div>
             </div>
           </div>
           <div className="bg-surface-100 rounded-xl p-6 border border-slate-100 space-y-4">
-            <h3 className="text-slate-900 font-semibold">InformaciÃ³n Adicional</h3>
+            <h3 className="text-slate-900 font-semibold">Información Adicional</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div><span className="text-slate-500">Aval:</span> <span className="text-slate-900">{client.avalName || '-'}</span></div>
               <div><span className="text-slate-500">Referido por:</span> <span className="text-slate-900">{client.referidoPor || '-'}</span></div>
@@ -141,7 +141,7 @@ export default function ClientDetail() {
                 </tr>
               ))}
               {(!client.loans || client.loans.length === 0) && (
-                <tr><td colSpan={6} className="py-8 text-center text-slate-400">Sin prÃ©stamos</td></tr>
+                <tr><td colSpan={6} className="py-8 text-center text-slate-400">Sin préstamos</td></tr>
               )}
             </tbody>
           </table>
@@ -149,7 +149,7 @@ export default function ClientDetail() {
       )}
 
       {tab === 'documents' && <SubList title="Documentos" items={client.documents} fields={['type', 'name']} onAdd={(data: any) => addDocument(Number(id), data).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} onDelete={(itemId: number) => deleteDocument(Number(id), itemId).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} />}
-      {tab === 'guarantees' && <SubList title="GarantÃ­as" items={client.guarantees} fields={['type', 'detail', 'value']} onAdd={(data: any) => addGuarantee(Number(id), data).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} onDelete={(itemId: number) => deleteGuarantee(Number(id), itemId).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} />}
+      {tab === 'guarantees' && <SubList title="Garantías" items={client.guarantees} fields={['type', 'detail', 'value']} onAdd={(data: any) => addGuarantee(Number(id), data).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} onDelete={(itemId: number) => deleteGuarantee(Number(id), itemId).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} />}
       {tab === 'relationships' && <SubList title="Relaciones" items={client.relationships} fields={['name', 'relation', 'phone']} onAdd={(data: any) => addRelationship(Number(id), data).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} onDelete={(itemId: number) => deleteRelationship(Number(id), itemId).then(() => queryClient.invalidateQueries({ queryKey: ['client', id] }))} />}
     </div>
   );

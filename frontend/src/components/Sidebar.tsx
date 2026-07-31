@@ -9,7 +9,7 @@ import {
 const navItems = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard', roles: ['ADMIN'] },
   { to: '/clients', icon: Users, label: 'Clientes', roles: ['ADMIN'] },
-  { to: '/loans', icon: Handshake, label: 'PrÃ©stamos', roles: ['ADMIN'] },
+  { to: '/loans', icon: Handshake, label: 'Préstamos', roles: ['ADMIN'] },
   { to: '/payments', icon: DollarSign, label: 'Cobros', roles: ['ADMIN'] },
   { to: '/scoring', icon: ShieldCheck, label: 'Scoring', roles: ['ADMIN'] },
   { to: '/reports', icon: BarChart3, label: 'Reportes', roles: ['ADMIN'] },
@@ -19,7 +19,7 @@ const navItems = [
   { to: '/prospects', icon: Target, label: 'Prospectos', roles: ['ADMIN'] },
   { to: '/alerts', icon: Megaphone, label: 'Alertas', roles: ['ADMIN'] },
   { to: '/cotizador', icon: ScrollText, label: 'Cotizador', roles: ['ADMIN'] },
-  { to: '/settings', icon: Settings, label: 'ConfiguraciÃ³n', roles: ['ADMIN'] },
+  { to: '/settings', icon: Settings, label: 'Configuración', roles: ['ADMIN'] },
 ];
 
 export default function Sidebar() {

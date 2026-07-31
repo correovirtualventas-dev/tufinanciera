@@ -30,7 +30,7 @@ export default function Investors() {
 
   const passwordMutation = useMutation({
     mutationFn: ({ id, pwd }: { id: number; pwd: string }) => setInvestorPassword(id, pwd),
-    onSuccess: () => { toast.success('ContraseÃ±a actualizada'); setPasswordModal({ open: false, id: 0, name: '' }); setPassword(''); },
+    onSuccess: () => { toast.success('Contraseña actualizada'); setPasswordModal({ open: false, id: 0, name: '' }); setPassword(''); },
   });
 
   const filtered = (investors || []).filter((i: any) =>
@@ -132,8 +132,8 @@ export default function Investors() {
       {passwordModal.open && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setPasswordModal({ open: false, id: 0, name: '' })}>
           <div className="bg-surface-100 rounded-2xl p-6 w-full max-w-sm" onClick={e => e.stopPropagation()}>
-            <h2 className="text-xl font-bold text-slate-900 mb-2">ContraseÃ±a para {passwordModal.name}</h2>
-            <PasswordInput value={password} onChange={e => setPassword(e.target.value)} placeholder="Nueva contraseÃ±a" className="w-full px-3 py-2 mb-4" />
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Contraseña para {passwordModal.name}</h2>
+            <PasswordInput value={password} onChange={e => setPassword(e.target.value)} placeholder="Nueva contraseña" className="w-full px-3 py-2 mb-4" />
             <div className="flex justify-end gap-3">
               <button onClick={() => setPasswordModal({ open: false, id: 0, name: '' })} className="px-4 py-2 text-slate-500 hover:text-slate-900">Cancelar</button>
               <button onClick={() => passwordMutation.mutate({ id: passwordModal.id, pwd: password })} className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-lg">Guardar</button>

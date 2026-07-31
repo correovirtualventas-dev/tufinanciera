@@ -48,10 +48,10 @@ export default function Cobros() {
         <h1 className="text-2xl font-bold text-slate-900 mb-6">Registrar Pago</h1>
         <form onSubmit={handleSubmit} className="bg-surface-100 rounded-xl p-6 border border-slate-100 space-y-4">
           <div>
-            <label className="block text-sm text-slate-500 mb-1">PrÃ©stamo</label>
+            <label className="block text-sm text-slate-500 mb-1">Préstamo</label>
             <select value={form.loanId} onChange={e => handleLoanSelect(e.target.value)} required
               className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
-              <option value="">Seleccionar prÃ©stamo</option>
+              <option value="">Seleccionar préstamo</option>
               {(loans || []).map((l: any) => (
                 <option key={l.id} value={l.id}>#{l.id} - {l.client?.firstName} {l.client?.lastName} - {formatCurrency(l.installmentAmount)}/mes</option>
               ))}

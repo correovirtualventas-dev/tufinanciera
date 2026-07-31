@@ -36,7 +36,7 @@ export default function InvestorDetail() {
 
   const deleteAccrualMutation = useMutation({
     mutationFn: (accId: number) => deleteAccrual(accId),
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['investor-summary', id] }); toast.success('AcreditaciÃ³n eliminada'); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['investor-summary', id] }); toast.success('Acreditación eliminada'); },
   });
 
   const payoutMutation = useMutation({
@@ -104,7 +104,7 @@ export default function InvestorDetail() {
             <form onSubmit={e => { e.preventDefault(); movementMutation.mutate(movementForm); }} className="space-y-4">
               <div className="flex gap-3">
                 <button type="button" onClick={() => setMovementForm({ ...movementForm, movementType: 'DEPOSIT' })}
-                  className={`flex-1 py-2 rounded-lg text-sm font-semibold ${movementForm.movementType === 'DEPOSIT' ? 'bg-secondary-500 text-black' : 'bg-surface-400 text-slate-500'}`}>DepÃ³sito</button>
+                  className={`flex-1 py-2 rounded-lg text-sm font-semibold ${movementForm.movementType === 'DEPOSIT' ? 'bg-secondary-500 text-black' : 'bg-surface-400 text-slate-500'}`}>Depósito</button>
                 <button type="button" onClick={() => setMovementForm({ ...movementForm, movementType: 'CAPITAL_WITHDRAWAL' })}
                   className={`flex-1 py-2 rounded-lg text-sm font-semibold ${movementForm.movementType === 'CAPITAL_WITHDRAWAL' ? 'bg-red-500 text-white' : 'bg-surface-400 text-slate-500'}`}>Retiro</button>
               </div>
@@ -117,11 +117,11 @@ export default function InvestorDetail() {
           <div className="bg-surface-100 rounded-xl border border-slate-100 overflow-hidden max-h-96">
             <div className="p-4 border-b border-slate-200"><h3 className="text-slate-900 font-semibold">Historial</h3></div>
             <table className="w-full">
-              <thead><tr className="text-slate-500 text-sm"><th className="text-left py-2 px-4">Tipo</th><th className="text-right py-2 px-4">Monto</th><th className="text-right py-2 px-4">Fecha</th><th className="text-right py-2 px-4">AcciÃ³n</th></tr></thead>
+              <thead><tr className="text-slate-500 text-sm"><th className="text-left py-2 px-4">Tipo</th><th className="text-right py-2 px-4">Monto</th><th className="text-right py-2 px-4">Fecha</th><th className="text-right py-2 px-4">Acción</th></tr></thead>
               <tbody>
                 {(movements || []).map((m: any) => (
                   <tr key={m.id} className="border-b border-slate-100 hover:bg-slate-100">
-                    <td className="py-2 px-4"><span className={`px-2 py-1 rounded-full text-xs ${m.movementType === 'DEPOSIT' ? 'bg-secondary-500/10 text-secondary-500' : 'bg-red-500/10 text-red-500'}`}>{m.movementType === 'DEPOSIT' ? 'DepÃ³sito' : 'Retiro'}</span></td>
+                    <td className="py-2 px-4"><span className={`px-2 py-1 rounded-full text-xs ${m.movementType === 'DEPOSIT' ? 'bg-secondary-500/10 text-secondary-500' : 'bg-red-500/10 text-red-500'}`}>{m.movementType === 'DEPOSIT' ? 'Depósito' : 'Retiro'}</span></td>
                     <td className="py-2 px-4 text-right text-slate-900">{formatCurrency(m.amount)}</td>
                     <td className="py-2 px-4 text-right text-slate-500">{formatDate(m.date)}</td>
                     <td className="py-2 px-4 text-right"><button onClick={() => deleteMovementMutation.mutate(m.id)} className="text-slate-500 hover:text-red-500"><Trash2 size={16} /></button></td>
@@ -150,7 +150,7 @@ export default function InvestorDetail() {
           <div className="bg-surface-100 rounded-xl border border-slate-100 overflow-hidden max-h-96">
             <div className="p-4 border-b border-slate-200"><h3 className="text-slate-900 font-semibold">Acreditaciones</h3></div>
             <table className="w-full">
-              <thead><tr className="text-slate-500 text-sm"><th className="text-left py-2 px-4">Fecha</th><th className="text-right py-2 px-4">Base</th><th className="text-right py-2 px-4">TNA</th><th className="text-right py-2 px-4">Monto</th><th className="text-right py-2 px-4">AcciÃ³n</th></tr></thead>
+              <thead><tr className="text-slate-500 text-sm"><th className="text-left py-2 px-4">Fecha</th><th className="text-right py-2 px-4">Base</th><th className="text-right py-2 px-4">TNA</th><th className="text-right py-2 px-4">Monto</th><th className="text-right py-2 px-4">Acción</th></tr></thead>
               <tbody>
                 {(accruals || []).map((a: any) => (
                   <tr key={a.id} className="border-b border-slate-100 hover:bg-slate-100">
@@ -182,7 +182,7 @@ export default function InvestorDetail() {
           <div className="bg-surface-100 rounded-xl border border-slate-100 overflow-hidden max-h-96">
             <div className="p-4 border-b border-slate-200"><h3 className="text-slate-900 font-semibold">Pagos Realizados</h3></div>
             <table className="w-full">
-              <thead><tr className="text-slate-500 text-sm"><th className="text-right py-2 px-4">Monto</th><th className="text-right py-2 px-4">Fecha</th><th className="text-right py-2 px-4">AcciÃ³n</th></tr></thead>
+              <thead><tr className="text-slate-500 text-sm"><th className="text-right py-2 px-4">Monto</th><th className="text-right py-2 px-4">Fecha</th><th className="text-right py-2 px-4">Acción</th></tr></thead>
               <tbody>
                 {(payouts || []).map((p: any) => (
                   <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-100">

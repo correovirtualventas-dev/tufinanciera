@@ -19,10 +19,10 @@ export default function Login() {
     try {
       const result = await login(nameOrEmail, password);
       setAuth(result.token, result.user, result.user.role);
-      toast.success('Inicio de sesiÃ³n exitoso');
+      toast.success('Inicio de sesión exitoso');
       navigate('/');
     } catch (err: any) {
-      toast.error(err.response?.data?.error || 'Error al iniciar sesiÃ³n');
+      toast.error(err.response?.data?.error || 'Error al iniciar sesión');
     } finally {
       setLoading(false);
     }
@@ -35,7 +35,7 @@ export default function Login() {
           <h1 className="text-2xl font-bold text-slate-900">
             Tu<span className="text-primary-500">Financiera</span>
           </h1>
-          <p className="text-slate-500 mt-2">Inicia sesiÃ³n para continuar</p>
+          <p className="text-slate-500 mt-2">Inicia sesión para continuar</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -50,11 +50,11 @@ export default function Login() {
             />
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">ContraseÃ±a</label>
+            <label className="block text-sm text-slate-500 mb-1">Contraseña</label>
             <PasswordInput
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Ingresa tu contraseÃ±a"
+              placeholder="Ingresa tu contraseña"
               className="w-full px-4 py-3"
               required
             />

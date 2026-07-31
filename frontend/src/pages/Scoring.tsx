@@ -56,7 +56,7 @@ export default function Scoring() {
           {bcraResult && (
             <div className="mt-4 bg-surface-400 rounded-lg p-4 space-y-2">
               <p className="text-slate-900">CUIT: {bcraResult.cuit}</p>
-              <p className="text-slate-700">SituaciÃ³n: {bcraResult.situacion}</p>
+              <p className="text-slate-700">Situación: {bcraResult.situacion}</p>
               <p className="text-slate-700">Riesgo: {bcraResult.riesgo}</p>
               <p className="text-slate-900">Score BCRA: {bcraResult.score}</p>
               <p className="text-secondary-500">{bcraResult.recomendacion}</p>
@@ -65,7 +65,7 @@ export default function Scoring() {
         </div>
 
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-          <h3 className="text-slate-900 font-semibold mb-4">RecÃ¡lculo de Score</h3>
+          <h3 className="text-slate-900 font-semibold mb-4">Recálculo de Score</h3>
           <div className="flex gap-3">
             <select value={clientId} onChange={e => setClientId(e.target.value)}
               className="flex-1 bg-surface-400 border border-slate-200 rounded-lg px-3 py-3 text-slate-900">
@@ -97,12 +97,12 @@ export default function Scoring() {
               className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">Monto PrÃ©stamo</label>
+            <label className="block text-sm text-slate-500 mb-1">Monto Préstamo</label>
             <input type="number" value={simFactors.loanAmount} onChange={e => setSimFactors({ ...simFactors, loanAmount: Number(e.target.value) })}
               className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">PrÃ©stamos activos</label>
+            <label className="block text-sm text-slate-500 mb-1">Préstamos activos</label>
             <input type="number" value={simFactors.existingLoans} onChange={e => setSimFactors({ ...simFactors, existingLoans: Number(e.target.value) })}
               className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
@@ -112,15 +112,15 @@ export default function Scoring() {
               className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">AntigÃ¼edad (meses)</label>
+            <label className="block text-sm text-slate-500 mb-1">Antigüedad (meses)</label>
             <input type="number" value={simFactors.timeAsClient} onChange={e => setSimFactors({ ...simFactors, timeAsClient: Number(e.target.value) })}
               className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
           </div>
           <div>
-            <label className="block text-sm text-slate-500 mb-1">GarantÃ­as</label>
+            <label className="block text-sm text-slate-500 mb-1">Garantías</label>
             <select value={String(simFactors.hasGuarantees)} onChange={e => setSimFactors({ ...simFactors, hasGuarantees: e.target.value === 'true' })}
               className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
-              <option value="true">SÃ­</option>
+              <option value="true">Sí</option>
               <option value="false">No</option>
             </select>
           </div>

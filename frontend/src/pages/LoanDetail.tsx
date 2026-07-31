@@ -14,7 +14,7 @@ export default function LoanDetail() {
   });
 
   if (isLoading) return <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-primary-500 mx-auto mt-20" />;
-  if (!loan) return <div className="text-slate-500 mt-20 text-center">PrÃ©stamo no encontrado</div>;
+  if (!loan) return <div className="text-slate-500 mt-20 text-center">Préstamo no encontrado</div>;
 
   const amortTable = generateFrenchAmortization(loan.amount, loan.interestRate, loan.installments);
   const paidInstallments = new Set((loan.payments || []).map((p: any) => p.installment));
@@ -22,7 +22,7 @@ export default function LoanDetail() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">PrÃ©stamo #{loan.id}</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Préstamo #{loan.id}</h1>
         <p className="text-slate-500">{loan.client?.firstName} {loan.client?.lastName} - DNI: {loan.client?.dni}</p>
       </div>
 
@@ -50,14 +50,14 @@ export default function LoanDetail() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-          <h3 className="text-slate-900 font-semibold mb-4">Tabla de AmortizaciÃ³n</h3>
+          <h3 className="text-slate-900 font-semibold mb-4">Tabla de Amortización</h3>
           <div className="max-h-96 overflow-y-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-slate-500 border-b border-slate-200">
                   <th className="text-left py-2">#</th>
                   <th className="text-right py-2">Capital</th>
-                  <th className="text-right py-2">InterÃ©s</th>
+                  <th className="text-right py-2">Interés</th>
                   <th className="text-right py-2">Saldo</th>
                   <th className="text-center py-2">Estado</th>
                 </tr>

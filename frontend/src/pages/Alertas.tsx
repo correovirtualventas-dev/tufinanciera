@@ -24,7 +24,7 @@ export default function Alertas() {
 
   const tabs = [
     { key: 'overdue', label: 'Vencidos', icon: AlertTriangle },
-    { key: 'upcoming', label: 'PrÃ³ximos', icon: Clock },
+    { key: 'upcoming', label: 'Próximos', icon: Clock },
     { key: 'pending', label: 'Cobranza Pendiente', icon: DollarSign },
   ];
 
@@ -66,7 +66,7 @@ export default function Alertas() {
                 </tr>
               ))}
               {(!overdue || overdue.length === 0) && (
-                <tr><td colSpan={5} className="py-8 text-center text-slate-400">Sin prÃ©stamos vencidos</td></tr>
+                <tr><td colSpan={5} className="py-8 text-center text-slate-400">Sin préstamos vencidos</td></tr>
               )}
             </tbody>
           </table>
@@ -82,7 +82,7 @@ export default function Alertas() {
                 <th className="text-center py-3 px-4">Cuota</th>
                 <th className="text-right py-3 px-4">Monto</th>
                 <th className="text-right py-3 px-4">Vence</th>
-                <th className="text-center py-3 px-4">DÃ­as</th>
+                <th className="text-center py-3 px-4">Días</th>
               </tr>
             </thead>
             <tbody>

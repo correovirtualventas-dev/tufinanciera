@@ -96,7 +96,7 @@ export default function Clients() {
               <tr className="border-b border-slate-200 text-slate-500 text-sm">
                 <th className="text-left py-4 px-4">Nombre</th>
                 <th className="text-left py-4 px-4">DNI</th>
-                <th className="text-left py-4 px-4">TelÃ©fono</th>
+                <th className="text-left py-4 px-4">Teléfono</th>
                 <th className="text-center py-4 px-4">Score</th>
                 <th className="text-center py-4 px-4">Estado</th>
                 <th className="text-right py-4 px-4">Acciones</th>
@@ -182,7 +182,7 @@ export default function Clients() {
                 <input value={form.cuit} onChange={e => setForm({ ...form, cuit: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
-                <label className="block text-sm text-slate-500 mb-1">TelÃ©fono</label>
+                <label className="block text-sm text-slate-500 mb-1">Teléfono</label>
                 <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
@@ -190,7 +190,7 @@ export default function Clients() {
                 <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div className="col-span-2">
-                <label className="block text-sm text-slate-500 mb-1">DirecciÃ³n</label>
+                <label className="block text-sm text-slate-500 mb-1">Dirección</label>
                 <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>

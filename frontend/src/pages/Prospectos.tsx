@@ -89,7 +89,7 @@ export default function Prospectos() {
             <tr className="border-b border-slate-200 text-slate-500 text-sm">
               <th className="text-left py-3 px-4">Nombre</th>
               <th className="text-left py-3 px-4">DNI</th>
-              <th className="text-left py-3 px-4">TelÃ©fono</th>
+              <th className="text-left py-3 px-4">Teléfono</th>
               <th className="text-center py-3 px-4">Estado</th>
               <th className="text-center py-3 px-4">Temp.</th>
               <th className="text-center py-3 px-4">Calif.</th>
@@ -141,7 +141,7 @@ export default function Prospectos() {
                 <input required value={form.lastName} onChange={e => setForm({ ...form, lastName: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div><label className="block text-sm text-slate-500 mb-1">DNI</label><input value={form.dni} onChange={e => setForm({ ...form, dni: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
-              <div><label className="block text-sm text-slate-500 mb-1">TelÃ©fono</label><input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
+              <div><label className="block text-sm text-slate-500 mb-1">Teléfono</label><input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
               <div><label className="block text-sm text-slate-500 mb-1">Email</label><input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
               <div><label className="block text-sm text-slate-500 mb-1">Localidad</label><input value={form.localidad} onChange={e => setForm({ ...form, localidad: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
               <div><label className="block text-sm text-slate-500 mb-1">Actividad</label><input value={form.activity} onChange={e => setForm({ ...form, activity: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" /></div>
@@ -164,11 +164,11 @@ export default function Prospectos() {
                   <option value="">Seleccionar</option>
                   <option value="HOT">Caliente</option>
                   <option value="WARM">Tibio</option>
-                  <option value="COLD">FrÃ­o</option>
+                  <option value="COLD">Frío</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm text-slate-500 mb-1">CalificaciÃ³n</label>
+                <label className="block text-sm text-slate-500 mb-1">Calificación</label>
                 <select value={form.qualification} onChange={e => setForm({ ...form, qualification: e.target.value })} className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900">
                   <option value="">Seleccionar</option>
                   <option value="A">A</option>
