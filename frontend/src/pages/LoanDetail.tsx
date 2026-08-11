@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getLoan } from '../api/loans';
 import { getPaymentsByLoan } from '../api/payments';
-import { formatCurrency, formatDate, loanStatusLabel } from '../lib/format';
+import { formatCurrency, formatDate, loanStatusLabel, calculateFrenchInstallment } from '../lib/format';
 import { generateFrenchAmortization } from '../lib/format';
+import { Handshake } from 'lucide-react';
 
 export default function LoanDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data: loan, isLoading } = useQuery({
     queryKey: ['loan', id],
     queryFn: () => getLoan(Number(id)),
@@ -18,12 +20,21 @@ export default function LoanDetail() {
 
   const amortTable = generateFrenchAmortization(loan.amount, loan.interestRate, loan.installments);
   const paidInstallments = new Set((loan.payments || []).map((p: any) => p.installment));
+  const installment = loan.installmentAmount || calculateFrenchInstallment(loan.amount, loan.interestRate, loan.installments);
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">Préstamo #{loan.id}</h1>
-        <p className="text-slate-500">{loan.client?.firstName} {loan.client?.lastName} - DNI: {loan.client?.dni}</p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Préstamo #{loan.id}</h1>
+          <p className="text-slate-500">{loan.client?.firstName} {loan.client?.lastName} - DNI: {loan.client?.dni}</p>
+        </div>
+        <button
+          onClick={() => navigate(`/payments?loan=${loan.id}`)}
+          className="bg-secondary-500 hover:bg-secondary-600 text-black font-semibold px-4 py-2 rounded-lg flex items-center gap-2"
+        >
+          <Handshake size={18} /> Pagar Cuota
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -56,9 +67,10 @@ export default function LoanDetail() {
               <thead>
                 <tr className="text-slate-500 border-b border-slate-200">
                   <th className="text-left py-2">#</th>
+                  <th className="text-right py-2">Cuota mensual</th>
                   <th className="text-right py-2">Capital</th>
                   <th className="text-right py-2">Interés</th>
-                  <th className="text-right py-2">Saldo</th>
+                  <th className="text-right py-2">Saldo deudor</th>
                   <th className="text-center py-2">Estado</th>
                 </tr>
               </thead>
@@ -66,6 +78,7 @@ export default function LoanDetail() {
                 {amortTable.map((row: any) => (
                   <tr key={row.installment} className={`border-b border-slate-100 ${paidInstallments.has(row.installment) ? 'opacity-50' : ''}`}>
                     <td className="py-2 text-slate-900">{row.installment}</td>
+                    <td className="py-2 text-right text-slate-900">{formatCurrency(installment)}</td>
                     <td className="py-2 text-right text-slate-900">{formatCurrency(row.capital)}</td>
                     <td className="py-2 text-right text-slate-900">{formatCurrency(row.interest)}</td>
                     <td className="py-2 text-right text-slate-900">{formatCurrency(row.balance)}</td>

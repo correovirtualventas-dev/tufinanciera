@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 import { getLoans } from '../api/loans';
 import { registerPayment, getRecentPayments } from '../api/payments';
 import toast from 'react-hot-toast';
@@ -7,9 +8,10 @@ import { formatCurrency, formatDate } from '../lib/format';
 import { DollarSign, Search, Handshake, AlertTriangle, Receipt } from 'lucide-react';
 
 export default function Cobros() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [form, setForm] = useState({ loanId: '', installment: 1, amount: 0, paidAt: new Date().toISOString().split('T')[0], notes: '' });
   const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('ACTIVE');
+  const [statusFilter, setStatusFilter] = useState(searchParams.get('loan') ? 'ALL' : 'ACTIVE');
   const queryClient = useQueryClient();
 
   const { data: loans } = useQuery({ queryKey: ['loans-all'], queryFn: () => getLoans({}) });
@@ -62,6 +64,14 @@ export default function Cobros() {
       notes: '',
     });
   };
+
+  useEffect(() => {
+    const loanId = searchParams.get('loan');
+    if (loanId && (loans || []).some((l: any) => l.id === Number(loanId))) {
+      handleLoanSelect(loanId);
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, loans]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
