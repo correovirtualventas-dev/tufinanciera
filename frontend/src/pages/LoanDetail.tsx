@@ -59,30 +59,30 @@ export default function LoanDetail() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="bg-surface-100 rounded-xl p-6 border border-slate-100 lg:col-span-2">
           <h3 className="text-slate-900 font-semibold mb-4">Tabla de Amortización</h3>
-          <div className="max-h-96 overflow-y-auto">
+          <div className="max-h-[520px] overflow-y-auto pr-1">
             <table className="w-full text-sm">
-              <thead>
+              <thead className="sticky top-0 bg-surface-100">
                 <tr className="text-slate-500 border-b border-slate-200">
-                  <th className="text-left py-2">#</th>
-                  <th className="text-right py-2">Cuota mensual</th>
-                  <th className="text-right py-2">Capital</th>
-                  <th className="text-right py-2">Interés</th>
-                  <th className="text-right py-2">Saldo deudor</th>
-                  <th className="text-center py-2">Estado</th>
+                  <th className="text-left py-3">#</th>
+                  <th className="text-right py-3">Cuota mensual</th>
+                  <th className="text-right py-3">Capital</th>
+                  <th className="text-right py-3">Interés</th>
+                  <th className="text-right py-3">Saldo deudor</th>
+                  <th className="text-center py-3">Estado</th>
                 </tr>
               </thead>
               <tbody>
                 {amortTable.map((row: any) => (
                   <tr key={row.installment} className={`border-b border-slate-100 ${paidInstallments.has(row.installment) ? 'opacity-50' : ''}`}>
-                    <td className="py-2 text-slate-900">{row.installment}</td>
-                    <td className="py-2 text-right text-slate-900">{formatCurrency(installment)}</td>
-                    <td className="py-2 text-right text-slate-900">{formatCurrency(row.capital)}</td>
-                    <td className="py-2 text-right text-slate-900">{formatCurrency(row.interest)}</td>
-                    <td className="py-2 text-right text-slate-900">{formatCurrency(row.balance)}</td>
-                    <td className="py-2 text-center">
+                    <td className="py-2.5 text-slate-500">#{row.installment}</td>
+                    <td className="py-2.5 text-right text-slate-900 font-medium">{formatCurrency(installment)}</td>
+                    <td className="py-2.5 text-right text-slate-900">{formatCurrency(row.capital)}</td>
+                    <td className="py-2.5 text-right text-slate-900">{formatCurrency(row.interest)}</td>
+                    <td className="py-2.5 text-right text-slate-900 font-medium">{formatCurrency(row.balance)}</td>
+                    <td className="py-2.5 text-center">
                       {paidInstallments.has(row.installment) ? (
                         <span className="text-secondary-500 text-xs">Pagado</span>
                       ) : (
@@ -103,7 +103,7 @@ export default function LoanDetail() {
           ) : (
             <div className="space-y-2">
               {loan.payments.map((payment: any) => (
-                <div key={payment.id} className="flex justify-between items-center bg-surface-400 rounded-lg p-3">
+                <div key={payment.id} className="flex justify-between items-center bg-surface-400 rounded-lg px-3 py-2.5">
                   <div>
                     <span className="text-slate-900">Cuota #{payment.installment}</span>
                     <p className="text-slate-500 text-xs">{formatDate(payment.paidAt)}</p>
