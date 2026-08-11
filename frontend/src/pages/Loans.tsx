@@ -208,11 +208,12 @@ export default function Loans() {
                   <p className="text-sm text-slate-500 mb-2">Vista previa: Cuota {formatCurrency(calculateFrenchInstallment(parseAmount(form.amount), Number(form.interestRate), Number(form.installments)))} - Total {formatCurrency(calculateFrenchInstallment(parseAmount(form.amount), Number(form.interestRate), Number(form.installments)) * Number(form.installments))}</p>
                   <div className="max-h-40 overflow-y-auto text-xs">
                     <table className="w-full">
-                      <thead><tr className="text-slate-500"><th className="text-left">#</th><th className="text-right">Capital</th><th className="text-right">Interés</th><th className="text-right">Saldo</th></tr></thead>
+                      <thead><tr className="text-slate-500"><th className="text-left">#</th><th className="text-right">Cuota</th><th className="text-right">Capital</th><th className="text-right">Interés</th><th className="text-right">Saldo deudor</th></tr></thead>
                       <tbody>
                         {amortTable.map((row: any) => (
                           <tr key={row.installment} className="text-slate-700">
-                            <td>{row.installment}</td><td className="text-right">{formatCurrency(row.capital)}</td>
+                            <td>{row.installment}</td><td className="text-right">{formatCurrency(calculateFrenchInstallment(parseAmount(form.amount), Number(form.interestRate), Number(form.installments)))}</td>
+                            <td className="text-right">{formatCurrency(row.capital)}</td>
                             <td className="text-right">{formatCurrency(row.interest)}</td><td className="text-right">{formatCurrency(row.balance)}</td>
                           </tr>
                         ))}
