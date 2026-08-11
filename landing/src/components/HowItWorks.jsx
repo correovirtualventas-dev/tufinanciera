@@ -7,18 +7,18 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="como-funciona" className="py-20 bg-surface-light">
+    <section id="como-funciona" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">¿Cómo funciona?</h2>
-        <p className="text-white/60 text-center mb-12">En 4 simples pasos</p>
+        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4 text-slate-900">¿Cómo funciona?</h2>
+        <p className="text-tertiary-500 text-center mb-12">En 4 simples pasos</p>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {steps.map((step) => (
             <div key={step.num} className="text-center animate-fade-in">
-              <div className="w-16 h-16 rounded-full bg-primary/20 border-2 border-primary flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-primary">
+              <div className="w-16 h-16 rounded-full bg-primary-500/10 border-2 border-primary-500 flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-primary-500">
                 {step.num}
               </div>
-              <h3 className="font-semibold mb-2">{step.title}</h3>
-              <p className="text-white/60 text-sm">{step.desc}</p>
+              <h3 className="font-semibold mb-2 text-slate-900">{step.title}</h3>
+              <p className="text-tertiary-500 text-sm">{step.desc}</p>
             </div>
           ))}
         </div>
