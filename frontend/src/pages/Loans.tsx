@@ -13,7 +13,7 @@ export default function Loans() {
   const [status, setStatus] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState({
-    clientId: '', amount: '', interestRate: '', installments: 1, startDate: new Date().toISOString().split('T')[0], notes: '',
+    clientId: '', amount: '', interestRate: '', installments: '', startDate: new Date().toISOString().split('T')[0], notes: '',
   });
   const [amortTable, setAmortTable] = useState<any[]>([]);
 
@@ -40,8 +40,10 @@ export default function Loans() {
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['loans'] }); toast.success('Préstamo eliminado'); },
   });
 
+  const parseAmount = (value: string) => Number(String(value).replace(/\./g, ''));
+
   const updateAmort = () => {
-    const amount = Number(form.amount);
+    const amount = parseAmount(form.amount);
     const rate = Number(form.interestRate);
     const inst = Number(form.installments);
     if (amount > 0 && rate > 0 && inst > 0) {
@@ -54,7 +56,7 @@ export default function Loans() {
     createMutation.mutate({
       ...form,
       clientId: Number(form.clientId),
-      amount: Number(form.amount),
+      amount: parseAmount(form.amount),
       interestRate: Number(form.interestRate),
       installments: Number(form.installments),
     });
@@ -75,7 +77,7 @@ export default function Loans() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-slate-900">Préstamos</h1>
-        <button onClick={() => { setForm({ clientId: '', amount: '', interestRate: '', installments: 1, startDate: new Date().toISOString().split('T')[0], notes: '' }); setAmortTable([]); setModalOpen(true); }}
+        <button onClick={() => { setForm({ clientId: '', amount: '', interestRate: '', installments: '', startDate: new Date().toISOString().split('T')[0], notes: '' }); setAmortTable([]); setModalOpen(true); }}
           className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
           <Plus size={18} /> Nuevo Préstamo
         </button>
@@ -167,7 +169,23 @@ export default function Loans() {
               </div>
               <div>
                 <label className="block text-sm text-slate-500 mb-1">Monto</label>
-                <input type="number" step="0.01" value={form.amount} onChange={e => { setForm({ ...form, amount: e.target.value }); setTimeout(updateAmort, 50); }} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={form.amount}
+                    onChange={e => {
+                      const digits = e.target.value.replace(/[^\d]/g, '');
+                      const num = digits ? parseInt(digits, 10) : 0;
+                      setForm({ ...form, amount: num ? num.toLocaleString('es-AR') : '' });
+                      setTimeout(updateAmort, 50);
+                    }}
+                    required
+                    className="w-full bg-surface-400 border border-slate-200 rounded-lg pl-8 px-3 py-2 text-slate-900"
+                    placeholder="0"
+                  />
+                </div>
               </div>
               <div>
                 <label className="block text-sm text-slate-500 mb-1">Tasa Anual (%)</label>
@@ -175,7 +193,7 @@ export default function Loans() {
               </div>
               <div>
                 <label className="block text-sm text-slate-500 mb-1">Cuotas</label>
-                <input type="number" min="1" value={form.installments} onChange={e => { setForm({ ...form, installments: Number(e.target.value) }); setTimeout(updateAmort, 50); }} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
+                <input type="number" min="1" value={form.installments} onChange={e => { setForm({ ...form, installments: e.target.value }); setTimeout(updateAmort, 50); }} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" placeholder="0" />
               </div>
               <div>
                 <label className="block text-sm text-slate-500 mb-1">Fecha de Inicio</label>
@@ -187,7 +205,7 @@ export default function Loans() {
               </div>
               {amortTable.length > 0 && (
                 <div className="col-span-2">
-                  <p className="text-sm text-slate-500 mb-2">Vista previa: Cuota {formatCurrency(calculateFrenchInstallment(Number(form.amount), Number(form.interestRate), Number(form.installments)))} - Total {formatCurrency(calculateFrenchInstallment(Number(form.amount), Number(form.interestRate), Number(form.installments)) * Number(form.installments))}</p>
+                  <p className="text-sm text-slate-500 mb-2">Vista previa: Cuota {formatCurrency(calculateFrenchInstallment(parseAmount(form.amount), Number(form.interestRate), Number(form.installments)))} - Total {formatCurrency(calculateFrenchInstallment(parseAmount(form.amount), Number(form.interestRate), Number(form.installments)) * Number(form.installments))}</p>
                   <div className="max-h-40 overflow-y-auto text-xs">
                     <table className="w-full">
                       <thead><tr className="text-slate-500"><th className="text-left">#</th><th className="text-right">Capital</th><th className="text-right">Interés</th><th className="text-right">Saldo</th></tr></thead>
