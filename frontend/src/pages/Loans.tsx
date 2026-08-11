@@ -7,11 +7,13 @@ import toast from 'react-hot-toast';
 import { Plus, Search, FileText, Trash2, Download } from 'lucide-react';
 import { formatCurrency, formatDate, loanStatusLabel } from '../lib/format';
 import { calculateFrenchInstallment, generateFrenchAmortization } from '../lib/format';
+import PasswordModal from '../components/PasswordModal';
 
 export default function Loans() {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<any>(null);
   const [form, setForm] = useState({
     clientId: '', amount: '', interestRate: '', installments: '', startDate: new Date().toISOString().split('T')[0], notes: '',
   });
@@ -144,6 +146,7 @@ export default function Loans() {
                       <option value="OVERDUE">Vencido</option>
                       <option value="CANCELED">Cancelado</option>
                     </select>
+                    <button onClick={() => setDeleteTarget(loan)} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500"><Trash2 size={16} /></button>
                   </div>
                 </td>
               </tr>
@@ -230,6 +233,16 @@ export default function Loans() {
           </div>
         </div>
       )}
+
+      <PasswordModal
+        open={!!deleteTarget}
+        title="Eliminar préstamo"
+        description={deleteTarget ? `¿Eliminar el préstamo #${deleteTarget.id} de ${deleteTarget.client?.firstName || ''} ${deleteTarget.client?.lastName || ''}? Esta acción no se puede deshacer.` : undefined}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={() => {
+          if (deleteTarget) deleteMutation.mutate(deleteTarget.id);
+        }}
+      />
     </div>
   );
 }

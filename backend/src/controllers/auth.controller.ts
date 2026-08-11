@@ -42,6 +42,16 @@ export const authController = {
     }
   },
 
+    async verifyPassword(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const { password } = req.body;
+      const result = await authService.verifyPassword(req.user!.userId, password);
+      res.json(result);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   async seedAdmin(_req: AuthRequest, res: Response, next: NextFunction) {
     try {
       await authService.seedAdmin();

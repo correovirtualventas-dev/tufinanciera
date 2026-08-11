@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { prisma } from '../utils/prisma';
 import { supabase } from '../utils/supabase';
 import { env } from '../config/env';
+import { AppError } from '../middleware/errorHandler';
 
 export const authService = {
   async login(nameOrEmail: string, password: string) {
@@ -21,6 +22,15 @@ export const authService = {
       { expiresIn: env.JWT_EXPIRES_IN } as any
     );
     return { token, user: { id: user.id, name: user.name, email: user.email, role: user.role } };
+  },
+
+  async verifyPassword(userId: number, password: string) {
+    const user = await prisma.findUnique('user', { where: { id: userId } });
+    if (!user) throw new AppError('Usuario no encontrado', 404);
+    if (!user.password) throw new AppError('El usuario no tiene clave configurada', 400);
+    const valid = await bcrypt.compare(password, user.password as string);
+    if (!valid) throw new AppError('Clave incorrecta', 401);
+    return { valid: true };
   },
 
   async investorLogin(dni: string, password: string) {

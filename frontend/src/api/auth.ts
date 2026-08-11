@@ -19,3 +19,8 @@ export const getProfile = async () => {
   const { data } = await apiClient.get('/auth/profile');
   return data;
 };
+
+export const verifyPassword = async (password: string) => {
+  const { data } = await apiClient.post('/auth/verify-password', { password });
+  return data;
+};

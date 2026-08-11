@@ -4,12 +4,14 @@ import { getClients, createClient, updateClient, deleteClient, toggleClientActiv
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Plus, Search, Edit2, Trash2, ToggleLeft, ToggleRight, Eye } from 'lucide-react';
+import PasswordModal from '../components/PasswordModal';
 
 export default function Clients() {
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<any>(null);
+  const [deleteTarget, setDeleteTarget] = useState<any>(null);
   const [form, setForm] = useState({
     firstName: '', lastName: '', dni: '', cuit: '', phone: '', email: '',
     address: '', localidad: '', activity: '', income: '', notes: '', avalName: '', referidoPor: '',
@@ -142,7 +144,7 @@ export default function Clients() {
                       <button onClick={() => toggleMutation.mutate(client.id)} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-secondary-500">
                         {client.active ? <ToggleRight size={16} /> : <ToggleLeft size={16} />}
                       </button>
-                      <button onClick={() => { if (confirm('¿Eliminar cliente?')) deleteMutation.mutate(client.id); }} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500">
+                      <button onClick={() => setDeleteTarget(client)} className="p-2 hover:bg-slate-200 rounded-lg text-slate-500 hover:text-red-500">
                         <Trash2 size={16} />
                       </button>
                     </div>
@@ -242,6 +244,16 @@ export default function Clients() {
           </div>
         </div>
       )}
+
+      <PasswordModal
+        open={!!deleteTarget}
+        title="Eliminar cliente"
+        description={deleteTarget ? `¿Eliminar a ${deleteTarget.firstName} ${deleteTarget.lastName}? Esta acción no se puede deshacer.` : undefined}
+        onClose={() => setDeleteTarget(null)}
+        onConfirm={() => {
+          if (deleteTarget) deleteMutation.mutate(deleteTarget.id);
+        }}
+      />
     </div>
   );
 }

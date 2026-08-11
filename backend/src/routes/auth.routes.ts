@@ -7,5 +7,6 @@ router.post('/login', authController.login);
 router.post('/investor-login', authController.investorLogin);
 router.post('/client-login', authController.clientLogin);
 router.get('/profile', authenticate, authController.getProfile);
+router.post('/verify-password', authenticate, authController.verifyPassword);
 router.post('/seed', authController.seedAdmin);
 export default router;
