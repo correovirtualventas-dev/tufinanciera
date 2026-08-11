@@ -1,12 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
 import { getAdminMetrics } from '../api/dashboard';
 import StatCard from '../components/StatCard';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Link } from 'react-router-dom';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 import { formatCurrency } from '../lib/format';
 import {
   Users, Handshake, PiggyBank, Target, TrendingUp, DollarSign,
   AlertTriangle, CheckCircle, Clock, BarChart3, Wallet,
+  UserPlus, PlusCircle, ScrollText, Calculator,
 } from 'lucide-react';
+
+const quickActions = [
+  { to: '/clients', icon: UserPlus, label: 'Nuevo Cliente' },
+  { to: '/payments', icon: DollarSign, label: 'Registrar Pago' },
+  { to: '/loans', icon: PlusCircle, label: 'Nuevo Préstamo' },
+  { to: '/cotizador', icon: Calculator, label: 'Cotizador' },
+];
+
+const collectionChartColors = { cobrado: '#10b981', pendiente: '#ef4444' };
 
 export default function Dashboard() {
   const { data: metrics, isLoading } = useQuery({
@@ -33,9 +44,29 @@ export default function Dashboard() {
     ? Math.round((metrics.totalCollected / metrics.totalCapital) * 100)
     : 0;
 
+  const collectionData = metrics ? [
+    { name: 'Cobrado', value: metrics.totalCollected, fill: collectionChartColors.cobrado },
+    { name: 'Pendiente', value: metrics.pendingToCollect, fill: collectionChartColors.pendiente },
+  ] : [];
+
+  const monthlyChartData = (metrics?.monthlyBreakdown || []).map((m: any) => ({
+    mes: m.month,
+    Neto: m.net,
+  }));
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900">Panel de Control</h1>
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <h1 className="text-2xl font-bold text-slate-900">Panel de Control</h1>
+        <div className="flex gap-2 flex-wrap">
+          {quickActions.map(a => (
+            <Link key={a.to} to={a.to}
+              className="flex items-center gap-2 px-4 py-2 bg-surface-100 border border-slate-200 rounded-lg text-sm text-slate-700 hover:text-primary-500 hover:border-primary-500/40 transition-colors">
+              <a.icon size={16} /> {a.label}
+            </Link>
+          ))}
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title="Clientes Activos" value={metrics?.totalClients || 0} icon={Users} color="primary" />
@@ -68,9 +99,39 @@ export default function Dashboard() {
         </div>
 
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
-          <h3 className="text-slate-900 font-semibold mb-4">Créditos</h3>
-          <div className="text-3xl font-bold text-secondary-500">{formatCurrency(metrics?.totalCapital || 0)}</div>
-          <p className="text-slate-500 text-sm mt-1">Total prestado</p>
+          <h3 className="text-slate-900 font-semibold mb-4">Resumen de Cobranza</h3>
+          <div className="flex items-center gap-4">
+            <div className="w-28 h-28 flex-shrink-0">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={collectionData} dataKey="value" innerRadius={32} outerRadius={48} paddingAngle={3} strokeWidth={0}>
+                    {collectionData.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
+                  </Pie>
+                  <Tooltip
+                    formatter={(value: any) => formatCurrency(Number(value))}
+                    contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex-1 space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-slate-500">Cobrado</span>
+                <span className="text-secondary-500 font-semibold">{formatCurrency(metrics?.totalCollected || 0)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Pendiente</span>
+                <span className="text-red-500 font-semibold">{formatCurrency(metrics?.pendingToCollect || 0)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Tasa de Cobro</span>
+                <span className="text-slate-900 font-semibold">{collectionRate}%</span>
+              </div>
+              <div className="h-2 bg-surface-400 rounded-full overflow-hidden">
+                <div className="h-full bg-secondary-500 rounded-full transition-all" style={{ width: `${collectionRate}%` }} />
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
@@ -155,6 +216,29 @@ export default function Dashboard() {
       {metrics?.monthlyBreakdown && metrics.monthlyBreakdown.length > 0 && (
         <div className="bg-surface-100 rounded-xl p-6 border border-slate-100">
           <h3 className="text-slate-900 font-semibold mb-4">Cobros por Mes</h3>
+          {monthlyChartData.length > 0 && (
+            <div className="mb-6">
+              <ResponsiveContainer width="100%" height={220}>
+                <AreaChart data={monthlyChartData}>
+                  <defs>
+                    <linearGradient id="gradNeto" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#10b981" stopOpacity={0.35} />
+                      <stop offset="100%" stopColor="#10b981" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <XAxis dataKey="mes" stroke="#94a3b8" />
+                  <YAxis stroke="#94a3b8" tickFormatter={(v: any) => `$${v}`} />
+                  <Tooltip
+                    formatter={(value: any) => formatCurrency(Number(value))}
+                    contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px' }}
+                    labelStyle={{ color: '#1e293b' }}
+                  />
+                  <Area type="monotone" dataKey="Neto" stroke="#10b981" strokeWidth={2} fill="url(#gradNeto)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          )}
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>

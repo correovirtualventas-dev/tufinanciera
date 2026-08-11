@@ -1,31 +1,63 @@
 import { NavLink } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import apiClient from '../api/client';
 import { useAuthStore } from '../store/authStore';
 import {
   LayoutDashboard, Users, Handshake, DollarSign, BarChart3,
-  ShieldCheck, Megaphone, Settings, TrendingUp, Target, Building2,
+  ShieldCheck, Megaphone, Settings, TrendingUp, Target,
   PiggyBank, Receipt, ScrollText,
 } from 'lucide-react';
 
-const navItems = [
-  { to: '/', icon: LayoutDashboard, label: 'Panel de Control', roles: ['ADMIN'] },
-  { to: '/clients', icon: Users, label: 'Clientes', roles: ['ADMIN'] },
-  { to: '/loans', icon: Handshake, label: 'Préstamos', roles: ['ADMIN'] },
-  { to: '/payments', icon: DollarSign, label: 'Cobros', roles: ['ADMIN'] },
-  { to: '/scoring', icon: ShieldCheck, label: 'Puntaje', roles: ['ADMIN'] },
-  { to: '/reports', icon: BarChart3, label: 'Reportes', roles: ['ADMIN'] },
-  { to: '/accounting', icon: Receipt, label: 'Contabilidad', roles: ['ADMIN'] },
-  { to: '/exchange', icon: TrendingUp, label: 'Cambio de Divisas', roles: ['ADMIN'] },
-  { to: '/investors', icon: PiggyBank, label: 'Inversores', roles: ['ADMIN'] },
-  { to: '/prospects', icon: Target, label: 'Prospectos', roles: ['ADMIN'] },
-  { to: '/alerts', icon: Megaphone, label: 'Alertas', roles: ['ADMIN'] },
-  { to: '/cotizador', icon: ScrollText, label: 'Cotizador', roles: ['ADMIN'] },
-  { to: '/settings', icon: Settings, label: 'Configuración', roles: ['ADMIN'] },
+const navGroups = [
+  {
+    label: 'Principal',
+    items: [
+      { to: '/', icon: LayoutDashboard, label: 'Panel de Control', roles: ['ADMIN'] },
+      { to: '/clients', icon: Users, label: 'Clientes', roles: ['ADMIN'] },
+      { to: '/loans', icon: Handshake, label: 'Préstamos', roles: ['ADMIN'] },
+    ],
+  },
+  {
+    label: 'Gestión',
+    items: [
+      { to: '/payments', icon: DollarSign, label: 'Cobros', roles: ['ADMIN'] },
+      { to: '/scoring', icon: ShieldCheck, label: 'Puntaje', roles: ['ADMIN'] },
+      { to: '/prospects', icon: Target, label: 'Prospectos', roles: ['ADMIN'] },
+      { to: '/alerts', icon: Megaphone, label: 'Alertas', roles: ['ADMIN'], alert: true },
+    ],
+  },
+  {
+    label: 'Finanzas',
+    items: [
+      { to: '/accounting', icon: Receipt, label: 'Contabilidad', roles: ['ADMIN'] },
+      { to: '/exchange', icon: TrendingUp, label: 'Cambio de Divisas', roles: ['ADMIN'] },
+      { to: '/investors', icon: PiggyBank, label: 'Inversores', roles: ['ADMIN'] },
+      { to: '/reports', icon: BarChart3, label: 'Reportes', roles: ['ADMIN'] },
+    ],
+  },
+  {
+    label: 'Herramientas',
+    items: [
+      { to: '/cotizador', icon: ScrollText, label: 'Cotizador', roles: ['ADMIN'] },
+      { to: '/settings', icon: Settings, label: 'Configuración', roles: ['ADMIN'] },
+    ],
+  },
 ];
 
 export default function Sidebar() {
   const role = useAuthStore((s) => s.role);
 
-  const filtered = navItems.filter((item) => item.roles.includes(role || ''));
+  const { data: alerts } = useQuery({
+    queryKey: ['sidebar-alerts'],
+    queryFn: async () => {
+      const [overdue, upcoming] = await Promise.all([
+        apiClient.get('/alerts/overdue').then(r => r.data),
+        apiClient.get('/alerts/upcoming').then(r => r.data),
+      ]);
+      return (overdue?.length || 0) + (upcoming?.length || 0);
+    },
+    refetchInterval: 60000,
+  });
 
   return (
     <aside className="w-sidebar bg-surface-100 border-r border-slate-200 flex flex-col h-full">
@@ -35,23 +67,35 @@ export default function Sidebar() {
         </h1>
       </div>
       <nav className="flex-1 overflow-y-auto py-4">
-        {filtered.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            end={item.to === '/'}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-6 py-3 text-sm transition-colors ${
-                isActive
-                  ? 'bg-primary-500/10 text-primary-500 border-r-2 border-primary-500'
-                  : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
-              }`
-            }
-          >
-            <item.icon size={18} />
-            {item.label}
-          </NavLink>
-        ))}
+        {navGroups.map((group) => {
+          const items = group.items.filter((item) => item.roles.includes(role || ''));
+          if (items.length === 0) return null;
+          return (
+            <div key={group.label} className="mb-4">
+              <p className="px-6 mb-1 text-xs font-semibold uppercase tracking-wider text-slate-400">{group.label}</p>
+              {items.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  end={item.to === '/'}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-6 py-2.5 text-sm transition-colors ${
+                      isActive
+                        ? 'bg-primary-500/10 text-primary-500 border-r-2 border-primary-500'
+                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+                    }`
+                  }
+                >
+                  <item.icon size={18} />
+                  <span className="flex-1">{item.label}</span>
+                  {item.alert && alerts > 0 && (
+                    <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full min-w-[20px] text-center">{alerts}</span>
+                  )}
+                </NavLink>
+              ))}
+            </div>
+          );
+        })}
       </nav>
     </aside>
   );
