@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { prisma } from '../utils/prisma';
 import { supabase } from '../utils/supabase';
+import { AppError } from '../middleware/errorHandler';
 
 export const clientsService = {
   async list(params: { search?: string; active?: boolean }) {
@@ -58,6 +59,21 @@ export const clientsService = {
   },
 
   async create(data: any) {
+    const filters: string[] = [];
+    if (data.dni) filters.push(`dni.eq.${data.dni}`);
+    if (data.cuit) filters.push(`cuit.eq.${data.cuit}`);
+    if (data.email) filters.push(`email.eq.${data.email}`);
+    if (filters.length === 0) return prisma.create('client', { data });
+    const { data: existing, error: queryError } = await supabase
+      .from('clients')
+      .select('id, dni, cuit, email')
+      .or(filters.join(','))
+      .limit(1);
+    if (queryError) throw queryError;
+    if (existing && existing.length > 0) {
+      const field = existing[0].dni === data.dni ? 'DNI' : existing[0].cuit === data.cuit ? 'CUIT' : 'email';
+      throw new AppError(`Ya existe un cliente registrado con ese ${field}. Verificá que el DNI, CUIT y email no estén ya cargados.`, 409);
+    }
     return prisma.create('client', { data });
   },
 
