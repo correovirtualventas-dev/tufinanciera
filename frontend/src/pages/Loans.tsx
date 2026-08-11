@@ -13,7 +13,7 @@ export default function Loans() {
   const [status, setStatus] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState({
-    clientId: '', amount: 0, interestRate: 0, installments: 1, startDate: new Date().toISOString().split('T')[0], notes: '',
+    clientId: '', amount: '', interestRate: '', installments: 1, startDate: new Date().toISOString().split('T')[0], notes: '',
   });
   const [amortTable, setAmortTable] = useState<any[]>([]);
 
@@ -41,14 +41,23 @@ export default function Loans() {
   });
 
   const updateAmort = () => {
-    if (form.amount > 0 && form.interestRate > 0 && form.installments > 0) {
-      setAmortTable(generateFrenchAmortization(form.amount, form.interestRate, form.installments));
+    const amount = Number(form.amount);
+    const rate = Number(form.interestRate);
+    const inst = Number(form.installments);
+    if (amount > 0 && rate > 0 && inst > 0) {
+      setAmortTable(generateFrenchAmortization(amount, rate, inst));
     }
   };
 
   const handleCreate = (e: React.FormEvent) => {
     e.preventDefault();
-    createMutation.mutate({ ...form, clientId: Number(form.clientId) });
+    createMutation.mutate({
+      ...form,
+      clientId: Number(form.clientId),
+      amount: Number(form.amount),
+      interestRate: Number(form.interestRate),
+      installments: Number(form.installments),
+    });
   };
 
   const handleDownloadPdf = async (loanId: number) => {
@@ -66,7 +75,7 @@ export default function Loans() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-slate-900">Préstamos</h1>
-        <button onClick={() => { setForm({ clientId: '', amount: 0, interestRate: 0, installments: 1, startDate: new Date().toISOString().split('T')[0], notes: '' }); setAmortTable([]); setModalOpen(true); }}
+        <button onClick={() => { setForm({ clientId: '', amount: '', interestRate: '', installments: 1, startDate: new Date().toISOString().split('T')[0], notes: '' }); setAmortTable([]); setModalOpen(true); }}
           className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center gap-2">
           <Plus size={18} /> Nuevo Préstamo
         </button>
@@ -158,11 +167,11 @@ export default function Loans() {
               </div>
               <div>
                 <label className="block text-sm text-slate-500 mb-1">Monto</label>
-                <input type="number" value={form.amount} onChange={e => { setForm({ ...form, amount: Number(e.target.value) }); setTimeout(updateAmort, 50); }} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
+                <input type="number" step="0.01" value={form.amount} onChange={e => { setForm({ ...form, amount: e.target.value }); setTimeout(updateAmort, 50); }} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
                 <label className="block text-sm text-slate-500 mb-1">Tasa Anual (%)</label>
-                <input type="number" step="0.01" value={form.interestRate} onChange={e => { setForm({ ...form, interestRate: Number(e.target.value) }); setTimeout(updateAmort, 50); }} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
+                <input type="number" step="0.01" value={form.interestRate} onChange={e => { setForm({ ...form, interestRate: e.target.value }); setTimeout(updateAmort, 50); }} required className="w-full bg-surface-400 border border-slate-200 rounded-lg px-3 py-2 text-slate-900" />
               </div>
               <div>
                 <label className="block text-sm text-slate-500 mb-1">Cuotas</label>
@@ -178,7 +187,7 @@ export default function Loans() {
               </div>
               {amortTable.length > 0 && (
                 <div className="col-span-2">
-                  <p className="text-sm text-slate-500 mb-2">Vista previa: Cuota {formatCurrency(calculateFrenchInstallment(form.amount, form.interestRate, form.installments))} - Total {formatCurrency(calculateFrenchInstallment(form.amount, form.interestRate, form.installments) * form.installments)}</p>
+                  <p className="text-sm text-slate-500 mb-2">Vista previa: Cuota {formatCurrency(calculateFrenchInstallment(Number(form.amount), Number(form.interestRate), Number(form.installments)))} - Total {formatCurrency(calculateFrenchInstallment(Number(form.amount), Number(form.interestRate), Number(form.installments)) * Number(form.installments))}</p>
                   <div className="max-h-40 overflow-y-auto text-xs">
                     <table className="w-full">
                       <thead><tr className="text-slate-500"><th className="text-left">#</th><th className="text-right">Capital</th><th className="text-right">Interés</th><th className="text-right">Saldo</th></tr></thead>
