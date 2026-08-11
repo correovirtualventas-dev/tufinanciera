@@ -59,11 +59,17 @@ export const clientsService = {
   },
 
   async create(data: any) {
+    const clean = {
+      ...data,
+      cuit: data.cuit?.trim() ? data.cuit.trim() : null,
+      email: data.email?.trim() ? data.email.trim() : null,
+      phone: data.phone?.trim() ? data.phone.trim() : null,
+    };
     const filters: string[] = [];
-    if (data.dni) filters.push(`dni.eq.${data.dni}`);
-    if (data.cuit) filters.push(`cuit.eq.${data.cuit}`);
-    if (data.email) filters.push(`email.eq.${data.email}`);
-    if (filters.length === 0) return prisma.create('client', { data });
+    if (clean.dni) filters.push(`dni.eq.${clean.dni}`);
+    if (clean.cuit) filters.push(`cuit.eq.${clean.cuit}`);
+    if (clean.email) filters.push(`email.eq.${clean.email}`);
+    if (filters.length === 0) return prisma.create('client', { data: clean });
     const { data: existing, error: queryError } = await supabase
       .from('clients')
       .select('id, dni, cuit, email')
@@ -71,14 +77,20 @@ export const clientsService = {
       .limit(1);
     if (queryError) throw queryError;
     if (existing && existing.length > 0) {
-      const field = existing[0].dni === data.dni ? 'DNI' : existing[0].cuit === data.cuit ? 'CUIT' : 'email';
+      const field = existing[0].dni === clean.dni ? 'DNI' : existing[0].cuit === clean.cuit ? 'CUIT' : 'email';
       throw new AppError(`Ya existe un cliente registrado con ese ${field}. Verificá que el DNI, CUIT y email no estén ya cargados.`, 409);
     }
-    return prisma.create('client', { data });
+    return prisma.create('client', { data: clean });
   },
 
   async update(id: number, data: any) {
-    return prisma.update('client', { where: { id }, data });
+    const clean = {
+      ...data,
+      cuit: data.cuit?.trim() ? data.cuit.trim() : null,
+      email: data.email?.trim() ? data.email.trim() : null,
+      phone: data.phone?.trim() ? data.phone.trim() : null,
+    };
+    return prisma.update('client', { where: { id }, data: clean });
   },
 
   async toggleActive(id: number) {
