@@ -6,10 +6,25 @@ const SITUACIONES: Record<number, string> = {
   5: 'Situación 5 - Irrecuperable',
 };
 
+function cuitCheckDigit(base10: string): number {
+  const weights = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
+  let sum = 0;
+  for (let i = 0; i < 10; i++) sum += Number(base10[i]) * weights[i];
+  const resto = sum % 11;
+  if (resto === 0) return 0;
+  if (resto === 1) return 9;
+  return 11 - resto;
+}
+
 function buildCuitCandidates(dni: string): string[] {
   const d = dni.trim();
   if (/^\d{11}$/.test(d)) return [d];
-  if (/^\d{8}$/.test(d)) return [`20${d}0`, `23${d}0`, `24${d}0`, `27${d}0`];
+  if (/^\d{8}$/.test(d)) {
+    return ['20', '23', '24', '27'].map((p) => {
+      const base = p + d;
+      return base + cuitCheckDigit(base);
+    });
+  }
   return [];
 }
 
