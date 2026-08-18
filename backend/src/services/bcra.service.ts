@@ -67,7 +67,7 @@ export const bcraService = {
           .map((e: any) => ({
             entidad: e.entidad || 'Sin nombre',
             situacion: SITUACIONES[Number(e.situacion)] || `Situación ${e.situacion}`,
-            monto: Number(e.monto) || 0,
+            monto: Number(e.monto) * 1000 || 0,
             diasAtraso: Number(e.diasAtrasoPago) || 0,
             refinanciaciones: !!e.refinanciaciones,
           }));
