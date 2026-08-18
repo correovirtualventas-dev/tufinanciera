@@ -53,18 +53,36 @@ export default function Exchange() {
           </button>
         </div>
         {dolarRates && dolarRates.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {dolarRates.map((r: any) => (
-              <div key={r.casa} className="bg-surface-400 rounded-lg p-3 cursor-pointer hover:ring-1 hover:ring-primary-500 transition-all"
-                onClick={() => setForm({ ...form, rate: r.venta })}>
-                <div className="flex justify-between items-center">
-                  <p className="text-sm text-slate-500">{r.nombre}</p>
-                  {form.rate === r.venta && <span className="text-[10px] bg-primary-500/10 text-primary-500 px-1.5 py-0.5 rounded">usando</span>}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {dolarRates.filter((r: any) => ['oficial', 'blue', 'bolsa'].includes(r.casa)).map((r: any) => {
+              const colors: Record<string, string> = {
+                oficial: 'border-primary-500/30',
+                blue: 'border-secondary-500/40',
+                bolsa: 'border-tertiary-500/30',
+              };
+              const ventaColors: Record<string, string> = {
+                oficial: 'text-primary-500',
+                blue: 'text-secondary-500',
+                bolsa: 'text-tertiary-500',
+              };
+              return (
+                <div key={r.casa} className={`bg-surface-400 rounded-xl p-4 border-2 ${colors[r.casa] || 'border-slate-200'} cursor-pointer hover:ring-1 hover:ring-primary-500 transition-all`}
+                  onClick={() => setForm({ ...form, rate: r.venta })}>
+                  <div className="flex justify-between items-center mb-2">
+                    <p className="font-semibold text-slate-900">{r.nombre}</p>
+                    {form.rate === r.venta && <span className="text-[10px] bg-primary-500/10 text-primary-500 px-1.5 py-0.5 rounded">usando</span>}
+                  </div>
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-slate-500">Compra</span>
+                    <span className="font-bold text-slate-900">${r.compra.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-sm mt-1">
+                    <span className="text-slate-500">Venta</span>
+                    <span className={`font-bold ${ventaColors[r.casa] || 'text-slate-900'}`}>${r.venta.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</span>
+                  </div>
                 </div>
-                <p className="text-slate-900 font-bold">${r.venta.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</p>
-                <p className="text-xs text-slate-500">Compra ${r.compra.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <p className="text-sm text-slate-500">No se pudo obtener la cotización. Verificá la conexión.</p>
