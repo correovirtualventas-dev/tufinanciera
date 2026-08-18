@@ -209,12 +209,23 @@ export interface ScoringResult {
   category: { label: string; color: string };
 }
 
+export interface BcraEntidad {
+  entidad: string;
+  situacion: string;
+  monto: number;
+  diasAtraso: number;
+  refinanciaciones: boolean;
+}
+
 export interface BcraResult {
   dni: string;
   cuit: string;
+  denominacion: string;
   situacion: string;
   riesgo: string;
   score: number;
+  totalDeuda: number;
+  entidades: BcraEntidad[];
   recomendacion: string;
   source: string;
 }

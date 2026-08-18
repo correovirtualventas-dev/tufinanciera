@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { checkBcra, simulateScore, recalculateScore, getScoreDetails } from '../api/scoring';
 import { getClients } from '../api/clients';
+import { formatCurrency } from '../lib/format';
 import toast from 'react-hot-toast';
 import { ShieldCheck, Search, RefreshCw } from 'lucide-react';
 
@@ -54,11 +55,38 @@ export default function Scoring() {
             </button>
           </div>
           {bcraResult && (
-            <div className="mt-4 bg-surface-400 rounded-lg p-4 space-y-2">
+            <div className="mt-4 bg-surface-400 rounded-lg p-4 space-y-3">
               <p className="text-slate-900">CUIT: {bcraResult.cuit}</p>
+              {bcraResult.denominacion && <p className="text-slate-700">Titular: {bcraResult.denominacion}</p>}
               <p className="text-slate-700">Situación: {bcraResult.situacion}</p>
               <p className="text-slate-700">Riesgo: {bcraResult.riesgo}</p>
               <p className="text-slate-900">Puntaje BCRA: {bcraResult.score}</p>
+              <p className="text-slate-900">Deuda total: {formatCurrency(bcraResult.totalDeuda)}</p>
+              {bcraResult.entidades.length > 0 ? (
+                <div>
+                  <p className="text-slate-500 text-sm font-semibold mb-2">Entidades a las que se debe:</p>
+                  <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+                    {bcraResult.entidades.map((e: any, idx: number) => (
+                      <div key={idx} className="border border-slate-200 rounded-lg p-3 bg-surface-100">
+                        <p className="text-slate-900 font-medium">{e.entidad}</p>
+                        <div className="flex justify-between text-xs text-slate-500 mt-1">
+                          <span>{e.situacion}</span>
+                          <span className="text-slate-900 font-semibold">{formatCurrency(e.monto)}</span>
+                        </div>
+                        {(e.diasAtraso > 0 || e.refinanciaciones) && (
+                          <p className="text-xs text-red-500 mt-1">
+                            {e.diasAtraso > 0 ? `${e.diasAtraso} días de atraso` : ''}
+                            {e.diasAtraso > 0 && e.refinanciaciones ? ' · ' : ''}
+                            {e.refinanciaciones ? 'Con refinanciaciones' : ''}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-sm text-secondary-500">Sin entidades con deudas informadas</p>
+              )}
               <p className="text-secondary-500">{bcraResult.recomendacion}</p>
             </div>
           )}
