@@ -1,6 +1,36 @@
 import { prisma } from '../utils/prisma';
 
+const CASA_LABELS: Record<string, string> = {
+  oficial: 'Oficial',
+  blue: 'Blue',
+  bolsa: 'Bolsa',
+  contadoconliqui: 'Contado con Liqui',
+  mayorista: 'Mayorista',
+  cripto: 'Cripto',
+  tarjeta: 'Tarjeta',
+};
+
 export const exchangeService = {
+  async getDolarRates() {
+    try {
+      const response = await fetch('https://dolarapi.com/v1/dolares', {
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!response.ok) throw new Error(`DolarAPI status ${response.status}`);
+      const data: any = await response.json();
+      if (!Array.isArray(data)) throw new Error('Respuesta inválida');
+      return data.map((d: any) => ({
+        casa: d.casa,
+        nombre: CASA_LABELS[d.casa] || d.nombre || d.casa,
+        compra: d.compra,
+        venta: d.venta,
+        fechaActualizacion: d.fechaActualizacion,
+      }));
+    } catch {
+      return [];
+    }
+  },
+
   async list() {
     return prisma.findMany('exchangeOperation', {
       orderBy: { createdAt: 'desc' },

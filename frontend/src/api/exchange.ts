@@ -14,3 +14,6 @@ export const deleteExchangeOperation = (id: number) =>
 
 export const getExchangeSummary = () =>
   apiClient.get('/exchange/summary').then(r => r.data);
+
+export const getDolarRates = () =>
+  apiClient.get('/exchange/dolar').then(r => r.data);

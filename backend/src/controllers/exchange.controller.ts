@@ -3,6 +3,11 @@ import { AuthRequest } from '../middleware/auth';
 import { exchangeService } from '../services/exchange.service';
 
 export const exchangeController = {
+  async getDolarRates(req: AuthRequest, res: Response, next: NextFunction) {
+    try { res.json(await exchangeService.getDolarRates()); }
+    catch (err) { next(err); }
+  },
+
   async list(req: AuthRequest, res: Response, next: NextFunction) {
     try { res.json(await exchangeService.list()); }
     catch (err) { next(err); }

@@ -1,20 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getExchangeOperations, createExchangeOperation, deleteExchangeOperation, getExchangeSummary } from '../api/exchange';
+import { getExchangeOperations, createExchangeOperation, deleteExchangeOperation, getExchangeSummary, getDolarRates } from '../api/exchange';
 import toast from 'react-hot-toast';
 import { formatCurrency, formatDate } from '../lib/format';
-import { Plus, Trash2, TrendingUp } from 'lucide-react';
+import { Plus, Trash2, TrendingUp, RefreshCw } from 'lucide-react';
 
 export default function Exchange() {
-  const [form, setForm] = useState({ type: 'BUY', amountARS: 0, amountUSD: 0, rate: 1400, clientName: '', notes: '' });
+  const [form, setForm] = useState({ type: 'BUY', amountARS: 0, amountUSD: 0, rate: 0, clientName: '', notes: '' });
   const queryClient = useQueryClient();
 
   const { data: operations } = useQuery({ queryKey: ['exchange'], queryFn: getExchangeOperations });
   const { data: summary } = useQuery({ queryKey: ['exchange-summary'], queryFn: getExchangeSummary });
+  const { data: dolarRates, refetch: refetchRates, isFetching: ratesLoading } = useQuery({ queryKey: ['dolar-rates'], queryFn: getDolarRates, refetchInterval: 5 * 60 * 1000 });
+
+  useEffect(() => {
+    if (dolarRates && dolarRates.length > 0 && !form.rate) {
+      const blue = dolarRates.find((r: any) => r.casa === 'blue');
+      setForm((f) => ({ ...f, rate: blue?.venta || dolarRates[0].venta }));
+    }
+  }, [dolarRates]);
 
   const createMutation = useMutation({
     mutationFn: createExchangeOperation,
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['exchange'] }); queryClient.invalidateQueries({ queryKey: ['exchange-summary'] }); toast.success('Operación creada'); setForm({ type: 'BUY', amountARS: 0, amountUSD: 0, rate: 1400, clientName: '', notes: '' }); },
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['exchange'] }); queryClient.invalidateQueries({ queryKey: ['exchange-summary'] }); toast.success('Operación creada'); setForm(f => ({ type: 'BUY', amountARS: 0, amountUSD: 0, rate: f.rate, clientName: '', notes: '' })); },
   });
 
   const deleteMutation = useMutation({
@@ -35,6 +43,33 @@ export default function Exchange() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-slate-900">Cambio de Divisas</h1>
+
+      <div className="bg-surface-100 rounded-xl p-4 border border-slate-100">
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-slate-900 font-semibold">Cotización en vivo</h3>
+          <button onClick={() => refetchRates()} disabled={ratesLoading}
+            className="text-slate-500 hover:text-primary-500 flex items-center gap-1 text-sm">
+            <RefreshCw size={14} className={ratesLoading ? 'animate-spin' : ''} /> Actualizar
+          </button>
+        </div>
+        {dolarRates && dolarRates.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {dolarRates.map((r: any) => (
+              <div key={r.casa} className="bg-surface-400 rounded-lg p-3 cursor-pointer hover:ring-1 hover:ring-primary-500 transition-all"
+                onClick={() => setForm({ ...form, rate: r.venta })}>
+                <div className="flex justify-between items-center">
+                  <p className="text-sm text-slate-500">{r.nombre}</p>
+                  {form.rate === r.venta && <span className="text-[10px] bg-primary-500/10 text-primary-500 px-1.5 py-0.5 rounded">usando</span>}
+                </div>
+                <p className="text-slate-900 font-bold">${r.venta.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</p>
+                <p className="text-xs text-slate-500">Compra ${r.compra.toLocaleString('es-AR', { minimumFractionDigits: 2 })}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500">No se pudo obtener la cotización. Verificá la conexión.</p>
+        )}
+      </div>
 
       {summary && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
