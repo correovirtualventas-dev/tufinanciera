@@ -100,6 +100,21 @@ export const clientsService = {
   },
 
   async delete(id: number) {
+    const loans = await prisma.findMany('loan', { where: { clientId: id } });
+    for (const loan of loans) {
+      const payments = await prisma.findMany('payment', { where: { loanId: loan.id } });
+      for (const p of payments) {
+        await prisma.delete('payment', { where: { id: p.id } });
+      }
+      await prisma.delete('loan', { where: { id: loan.id } });
+    }
+    const docs = await prisma.findMany('document', { where: { clientId: id } });
+    for (const d of docs) await prisma.delete('document', { where: { id: d.id } });
+    const guarantees = await prisma.findMany('guarantee', { where: { clientId: id } });
+    for (const g of guarantees) await prisma.delete('guarantee', { where: { id: g.id } });
+    const relationships = await prisma.findMany('relationship', { where: { clientId: id } });
+    for (const r of relationships) await prisma.delete('relationship', { where: { id: r.id } });
+    await supabase.from('investors').update({ client_id: null }).eq('client_id', id);
     return prisma.delete('client', { where: { id } });
   },
 
